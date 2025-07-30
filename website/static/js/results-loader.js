@@ -156,9 +156,19 @@ function createCostTable(data, InterfaceNames, taskType, completionRates) {
 
     // Convert to array and add completion rates and estimated runtime
     const costData = Object.values(groupedData).map((group) => {
-        const avgPromptTokens = Math.round(group.promptTokens / group.count);
+        // Define task counts per category
+        const taskCounts = {
+            'Basic': 48,
+            'Advanced': 43
+        };
+        
+        // Get the correct divisor for this task type
+        const taskCount = taskCounts[taskType] || 1;
+        
+        // Calculate true averages per task (not per interface run)
+        const avgPromptTokens = Math.round(group.promptTokens / taskCount);
         const avgCompletionTokens = Math.round(
-            group.completionTokens / group.count
+            group.completionTokens / taskCount
         );
         const cost = calculateCost(
             avgPromptTokens,
@@ -205,10 +215,10 @@ function createCostTable(data, InterfaceNames, taskType, completionRates) {
         // Interface
         const tdInterface = document.createElement("td");
         const nameMap = {
-            RAG_Agent: "RAG",
-            API_MCP: "MCP-based",
-            NlWeb_elastic: "NLWeb + MCP",
-            "AX+Mem": "AX+MEM (Browser)",
+            RAG_Agent: "RAG Agent",
+            API_MCP: "MCP Agent",
+            NlWeb_elastic: "NLWeb Agent",
+            "AX+Mem": "HTML Agent (Browser)",
         };
         tdInterface.textContent = nameMap[row.interface] || row.interface;
         tr.appendChild(tdInterface);
@@ -360,10 +370,10 @@ function createResultsTable(data, filterFunc, InterfaceNames, taskType) {
             // Replace interface names with friendly names
             if (col === "Interface") {
                 const nameMap = {
-                    RAG_Agent: "RAG",
-                    API_MCP: "MCP-based",
-                    NlWeb_elastic: "NLWeb + MCP",
-                    "AX+Mem": "AX+MEM (Browser)",
+                    RAG_Agent: "RAG Agent",
+                    API_MCP: "MCP Agent",
+                    NlWeb_elastic: "NLWeb Agent",
+                    "AX+Mem": "HTML Agent (Browser)",
                 };
                 value = nameMap[value] || value;
             }
@@ -541,7 +551,7 @@ function createCategoryResultsTable(data, InterfaceNames, filterTaskType) {
                 category.includes("Find Cheapest Offer") ||
                 category.includes("Best Fit Specific") ||
                 category.includes("Add to Cart") ||
-                category.includes("Add To Cart")
+                category.includes("Checkout")
             ) {
                 row.derived_type = "Basic";
             } else if (
@@ -549,8 +559,8 @@ function createCategoryResultsTable(data, InterfaceNames, filterTaskType) {
                 category.includes("Cheapest Best Fit") ||
                 category.includes("Find Compatible Products") ||
                 category.includes("Substitutes") ||
-                category.includes("Checkout") ||
-                category.includes("End To End")
+                category.includes("End To End") ||
+                category.includes("Cheapest Best Fit Vague")
             ) {
                 row.derived_type = "Advanced";
             } else {
@@ -633,13 +643,39 @@ function createCategoryResultsTable(data, InterfaceNames, filterTaskType) {
         // Add category separator row if category changed
         if (currentCategory !== lastCategory && lastCategory !== null) {
             const separatorRow = document.createElement("tr");
-            separatorRow.style.height = "10px";
+            separatorRow.style.height = "30px";
             separatorRow.style.backgroundColor = "#f0f0f0";
 
             const separatorCell = document.createElement("td");
             separatorCell.colSpan = columnsToShow.length;
             separatorCell.style.borderTop = "2px solid #ddd";
-            separatorCell.innerHTML = "&nbsp;";
+            separatorCell.style.textAlign = "center";
+            separatorCell.style.fontWeight = "bold";
+            separatorCell.style.fontSize = "0.9em";
+            separatorCell.style.color = "#666";
+            
+            // Format category name for display
+            let categoryDisplayName = currentCategory;
+            if (currentCategory) {
+                categoryDisplayName = currentCategory
+                    .replace("Webmall_", "")
+                    .replace(/_/g, " ")
+                    .replace(/([A-Z])/g, " $1")
+                    .trim();
+                
+                // Apply rename mapping
+                const categoryRenameMap = {
+                    "Best Fit Specific": "Products Fulfilling Specific Requirements",
+                    "Best Fit Vague": "Satisfying Vague Requirements",
+                    "Cheapest Best Fit Specific": "Cheapest Offer Specific Requirements",
+                    "Cheapest Best Fit Vague": "Cheapest Offer Vague Requirements",
+                    "Substitutes": "Find Substitutes",
+                };
+                
+                categoryDisplayName = categoryRenameMap[categoryDisplayName] || categoryDisplayName;
+            }
+            
+            separatorCell.textContent = categoryDisplayName;
 
             separatorRow.appendChild(separatorCell);
             tbody.appendChild(separatorRow);
@@ -661,10 +697,10 @@ function createCategoryResultsTable(data, InterfaceNames, filterTaskType) {
             // Replace interface names with friendly names
             if (col === "Interface") {
                 const nameMap = {
-                    RAG_Agent: "RAG",
-                    API_MCP: "MCP-based",
-                    NlWeb_elastic: "NLWeb + MCP",
-                    "AX+Mem": "AX+MEM (Browser)",
+                    RAG_Agent: "RAG Agent",
+                    API_MCP: "MCP Agent",
+                    NlWeb_elastic: "NLWeb Agent",
+                    "AX+Mem": "HTML Agent",
                 };
                 value = nameMap[value] || value;
             }
@@ -768,9 +804,10 @@ function createCategorySummaryTable(data, InterfaceNames) {
 
     // Add columns for each Interface
     const InterfaceDisplayNames = {
-        RAG_Agent: "RAG",
-        API_MCP: "MCP-based",
-        NlWeb_elastic: "NLWeb + MCP",
+        RAG_Agent: "RAG Agent",
+        API_MCP: "MCP Agent",
+        NlWeb_elastic: "NLWeb Agent",
+        "AX+Mem": "HTML Agent",
     };
 
     InterfaceNames.forEach((Interface) => {
@@ -779,9 +816,9 @@ function createCategorySummaryTable(data, InterfaceNames) {
         headerRow.appendChild(th);
     });
 
-    // Add AX+MEM column
+    // Add HTML Agent column
     const thAxMem = document.createElement("th");
-    thAxMem.textContent = "AX+MEM (F1)";
+    thAxMem.textContent = "HTML Agent (F1)";
     headerRow.appendChild(thAxMem);
 
     thead.appendChild(headerRow);
@@ -857,7 +894,7 @@ function createCategorySummaryTable(data, InterfaceNames) {
     tableWrapper.appendChild(table);
 
     // Highlight best results - for summary table, we want to highlight across all rows
-    const summaryColumns = ['Category'].concat(InterfaceNames).concat(['AX+MEM (Browser)']);
+    const summaryColumns = ['Category'].concat(InterfaceNames).concat(['HTML Agent']);
     highlightBestInGroup(Array.from(table.querySelectorAll('tbody tr')), summaryColumns);
 
     return tableWrapper;
