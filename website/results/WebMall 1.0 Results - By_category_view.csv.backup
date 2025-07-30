@@ -1,0 +1,89 @@
+Interface,Model,type,category,task_completion_rate,avg_precision,avg_recall,f1_score,prompt_tokens,completion_tokens
+RAG_Agent,GPT-4.1,Advanced,Substitutes,0.17,0.25,0.33,0.29,91216,2749
+RAG_Agent,Claude Sonnet 4,,Substitutes,0.33,0.37,0.5,0.42,669499,13878
+NlWeb_elastic,Claude Sonnet 4,,Substitutes,0.5,0.5,0.5,0.5,573336,6376
+NlWeb_elastic,GPT-4.1,,Substitutes,0.17,0.25,0.33,0.29,200068,2368
+AX+Mem,GPT-4.1,,Substitutes,0.33,0.33,0.33,0.33,641707,20363
+AX+Mem,Claude Sonnet 4,,Substitutes,0.67,0.67,0.67,0.67,1591554,108726
+API_MCP,GPT-4.1,,Substitutes,0,0.28,0.67,0.39,168115,2124
+API_MCP,Claude Sonnet 4,,Substitutes,0.5,0.58,0.67,0.62,1418112,6706
+RAG_Agent,GPT-4.1,,Single  Product  Search,1,1,1,1,127648,4678
+RAG_Agent,Claude Sonnet 4,,Single  Product  Search,1,1,1,1,235205,13465
+NlWeb_elastic,Claude Sonnet 4,,Single  Product  Search,1,1,1,1,441944,5876
+NlWeb_elastic,GPT-4.1,,Single  Product  Search,0.92,0.97,1,0.98,332305,4153
+AX+Mem,GPT-4.1,,Single  Product  Search,0.67,0.89,0.82,0.85,1393967,42236
+AX+Mem,Claude Sonnet 4,,Single  Product  Search,0.75,0.83,0.79,0.81,2666017,264723
+API_MCP,GPT-4.1,,Single  Product  Search,1,1,1,1,265145,4070
+API_MCP,Claude Sonnet 4,,Single  Product  Search,0.92,0.97,1,0.98,2100822,9083
+RAG_Agent,GPT-4.1,,Find  Compatible  Products,0.2,0.62,0.87,0.72,77505,2469
+RAG_Agent,Claude Sonnet 4,,Find  Compatible  Products,0.4,0.4,0.4,0.4,467403,10504
+NlWeb_elastic,Claude Sonnet 4,,Find  Compatible  Products,0.2,0.42,0.73,0.53,315943,4658
+NlWeb_elastic,GPT-4.1,,Find  Compatible  Products,0.2,0.65,0.73,0.69,125741,1931
+AX+Mem,GPT-4.1,,Find  Compatible  Products,0.4,0.4,0.4,0.4,818833,20926
+AX+Mem,Claude Sonnet 4,,Find  Compatible  Products,0.2,0.54,0.6,0.57,1683127,108397
+API_MCP,GPT-4.1,,Find  Compatible  Products,0,0.28,0.67,0.39,119767,3831
+API_MCP,Claude Sonnet 4,,Find  Compatible  Products,0.2,0.36,0.73,0.48,1507745,7909
+RAG_Agent,GPT-4.1,,End To End,0.88,0.94,0.94,0.94,213411,3885
+RAG_Agent,Claude Sonnet 4,,End To End,0.88,0.94,0.94,0.94,393435,12094
+NlWeb_elastic,Claude Sonnet 4,,End To End,1,1,1,1,622429,5436
+NlWeb_elastic,GPT-4.1,,End To End,0.75,0.81,0.81,0.81,887307,3345
+AX+Mem,GPT-4.1,,End To End,0.63,0.63,0.63,0.63,2092290,43233
+AX+Mem,Claude Sonnet 4,,End To End,0.75,0.88,0.81,0.84,4823152,161277
+API_MCP,GPT-4.1,,End To End,0.5,0.5,0.5,0.5,567306,3682
+API_MCP,Claude Sonnet 4,,End To End,0.75,0.88,0.88,0.88,2838104,12140
+RAG_Agent,GPT-4.1,,Checkout,1,1,1,1,52996,1748
+RAG_Agent,Claude Sonnet 4,,Checkout,1,1,1,1,96702,5827
+NlWeb_elastic,Claude Sonnet 4,,Checkout,1,1,1,1,162973,5295
+NlWeb_elastic,GPT-4.1,,Checkout,1,1,1,1,194451,2030
+AX+Mem,GPT-4.1,,Checkout,1,1,1,1,1142913,24134
+AX+Mem,Claude Sonnet 4,,Checkout,0.88,0.88,0.88,0.88,1637756,64467
+API_MCP,GPT-4.1,,Checkout,0.88,0.88,0.88,0.88,422344,3169
+API_MCP,Claude Sonnet 4,,Checkout,1,1,1,1,1285072,9752
+RAG_Agent,GPT-4.1,,Cheapest  Product  Search,0.9,0.97,1,0.98,109145,3483
+RAG_Agent,Claude Sonnet 4,,Cheapest  Product  Search,0.78,0.78,0.78,0.78,188539,7762
+NlWeb_elastic,Claude Sonnet 4,,Cheapest  Product  Search,0.9,0.93,1,0.96,350375,6431
+NlWeb_elastic,GPT-4.1,,Cheapest  Product  Search,0.6,0.74,0.9,0.81,245979,3174
+AX+Mem,GPT-4.1,,Cheapest  Product  Search,0.9,0.9,0.9,0.9,1094016,32625
+AX+Mem,Claude Sonnet 4,,Cheapest  Product  Search,0.7,0.7,0.7,0.7,1505170,101392
+API_MCP,GPT-4.1,,Cheapest  Product  Search,0.6,0.76,0.98,0.85,225986,3266
+API_MCP,Claude Sonnet 4,,Cheapest  Product  Search,0.9,0.9,0.9,0.9,1793563,8525
+RAG_Agent,GPT-4.1,,Cheapest  Best  Fit  Vague,0.17,0.3,0.33,0.32,165336,3576
+RAG_Agent,Claude Sonnet 4,,Cheapest  Best  Fit  Vague,0.33,0.33,0.33,0.33,468548,10238
+NlWeb_elastic,Claude Sonnet 4,,Cheapest  Best  Fit  Vague,0.17,0.31,0.35,0.33,366465,6708
+NlWeb_elastic,GPT-4.1,,Cheapest  Best  Fit  Vague,0,0.19,0.34,0.24,155484,2473
+AX+Mem,GPT-4.1,,Cheapest  Best  Fit  Vague,0.17,0.67,0.44,0.53,1481592,39311
+AX+Mem,Claude Sonnet 4,,Cheapest  Best  Fit  Vague,0.33,0.33,0.33,0.33,1559824,102327
+API_MCP,GPT-4.1,,Cheapest  Best  Fit  Vague,0.17,0.36,0.53,0.43,166805,2621
+API_MCP,Claude Sonnet 4,,Cheapest  Best  Fit  Vague,0.33,0.39,0.38,0.39,1673467,7193
+RAG_Agent,GPT-4.1,,Cheapest  Best  Fit  Specific,0.6,0.6,0.6,0.6,154277,5101
+RAG_Agent,Claude Sonnet 4,,Cheapest  Best  Fit  Specific,0.4,0.4,0.4,0.4,1100935,27861
+NlWeb_elastic,Claude Sonnet 4,,Cheapest  Best  Fit  Specific,0.5,0.5,0.5,0.5,374885,7678
+NlWeb_elastic,GPT-4.1,,Cheapest  Best  Fit  Specific,0.1,0.15,0.3,0.2,264804,2540
+AX+Mem,GPT-4.1,,Cheapest  Best  Fit  Specific,0.3,0.3,0.3,0.3,1206088,37448
+AX+Mem,Claude Sonnet 4,,Cheapest  Best  Fit  Specific,0.5,0.5,0.5,0.5,3256674,144720
+API_MCP,GPT-4.1,,Cheapest  Best  Fit  Specific,0.4,0.48,0.6,0.53,322022,2528
+API_MCP,Claude Sonnet 4,,Cheapest  Best  Fit  Specific,0.5,0.5,0.5,0.5,2165784,11317
+RAG_Agent,GPT-4.1,,Best  Fit  Vague,0.38,0.61,0.66,0.63,166108,5712
+RAG_Agent,Claude Sonnet 4,,Best  Fit  Vague,0.38,0.43,0.46,0.44,579965,14524
+NlWeb_elastic,Claude Sonnet 4,,Best  Fit  Vague,0.38,0.6,0.84,0.7,278639,7305
+NlWeb_elastic,GPT-4.1,,Best  Fit  Vague,0.63,0.77,0.88,0.82,191879,4105
+AX+Mem,GPT-4.1,,Best  Fit  Vague,0.25,0.8,0.65,0.72,1454302,39019
+AX+Mem,Claude Sonnet 4,,Best  Fit  Vague,0.38,0.72,0.58,0.64,2774599,154972
+API_MCP,GPT-4.1,,Best  Fit  Vague,0.25,0.53,0.69,0.6,222963,4871
+API_MCP,Claude Sonnet 4,,Best  Fit  Vague,0.25,0.49,0.68,0.57,2304353,11946
+RAG_Agent,GPT-4.1,,Best  Fit  Specific,0.5,0.83,0.76,0.79,136030,4695
+RAG_Agent,Claude Sonnet 4,,Best  Fit  Specific,0.64,0.86,0.79,0.82,758632,16811
+NlWeb_elastic,Claude Sonnet 4,,Best  Fit  Specific,0.64,0.81,0.87,0.84,395647,7652
+NlWeb_elastic,GPT-4.1,,Best  Fit  Specific,0.27,0.7,0.84,0.76,280532,5906
+AX+Mem,GPT-4.1,,Best  Fit  Specific,0.36,0.85,0.59,0.7,1939440,47524
+AX+Mem,Claude Sonnet 4,,Best  Fit  Specific,0.45,0.82,0.6,0.69,4396575,208411
+API_MCP,GPT-4.1,,Best  Fit  Specific,0.45,0.75,0.89,0.81,281316,5834
+API_MCP,Claude Sonnet 4,,Best  Fit  Specific,0.36,0.7,0.8,0.75,3506302,13315
+RAG_Agent,GPT-4.1,,Add  To  Cart,0.71,0.86,1,0.92,69287,2642
+RAG_Agent,Claude Sonnet 4,,Add  To  Cart,0.86,0.93,1,0.96,155516,6479
+NlWeb_elastic,Claude Sonnet 4,,Add  To  Cart,0.86,0.93,1,0.96,529494,4740
+NlWeb_elastic,GPT-4.1,,Add  To  Cart,0.71,0.86,1,0.92,379384,2606
+AX+Mem,GPT-4.1,,Add  To  Cart,1,1,1,1,682666,22018
+AX+Mem,Claude Sonnet 4,,Add  To  Cart,0.86,0.86,0.86,0.86,1152782,86137
+API_MCP,GPT-4.1,,Add  To  Cart,0.57,0.79,1,0.88,257475,2727
+API_MCP,Claude Sonnet 4,,Add  To  Cart,0.86,0.93,1,0.96,1439687,6403
