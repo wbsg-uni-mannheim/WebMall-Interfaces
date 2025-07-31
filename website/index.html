@@ -234,16 +234,16 @@
             <h2 class="title is-3">Introduction</h2>
             <div class="content has-text-justified">
               <p>
-                LLM agents use different architectures and interfaces to interact with the World Wide Web. Some agents rely on traditional web browsers to navigate HTML pages originally designed for human users. Others do not directly access websites but instead retrieve web content by querying search engines that have indexed the web. 
-				A third architectural approach assumes that websites expose site-specific Web APIs, which agents interact with via the Model Context Protocol (MCP). A fourth architecture, proposed by Microsoft under the NLWeb initiative, defines a standardized interface through which agents query individual websites and receive responses formatted as structured schema.org data.
+                LLM agents use different architectures and interfaces to interact with the World Wide Web. Some agents rely on traditional web browsers to <b>navigate HTML pages</b> originally designed for human users. Others do not directly access websites but instead retrieve web content by <b>querying search engines</b> that have indexed the Web. 
+				A third architectural approach assumes that websites expose <b>site-specific Web APIs</b>, which agents interact with via the Model Context Protocol (MCP). A fourth architecture, proposed by Microsoft under the <b>NLWeb initiative</b>, defines a standardized interface through which agents query individual websites and receive responses formatted as structured schema.org data.
               </p>
               <p>
-                This page presents the results of the first experimental comparison of these four architectures, using a common set of tasks within an e-commerce scenario. The experiments were conducted across four e-shops, each offering products via different interfaces. 
+                This page presents the results of the first experimental comparison of these four architectures, using the <b>same set of tasks</b> within an e-commerce scenario. The experiments were conducted across four simulated e-shops, each offering products via different interfaces. 
 				Four corresponding LLM agents — the MCP agent, RAG agent, NLWeb agent, and HTML agent — are evaluated performing the same set of 91 tasks, each using a different method for interacting with the shops.
               </p>
               <p>
-                We compare the effectiveness (success rate, F1) of the different agents in solving the tasks, which are grouped into categories such as searching for specific products, searching for the cheapest product given concrete or vague requirements, adding products to shopping carts, and finally checking out the products and paying for them by credit card.
-				We also assess the efficiency of each architecture by measuring task runtime and token usage. The analysis of input and output tokens provides a basis for estimating both the operational cost of each agent as well as its energy consumption and environmental impact.
+                We compare the <b>effectiveness</b> (success rate, F1) of the different agents in solving the tasks, which are grouped into categories such as searching for specific products, searching for the cheapest product given concrete or vague requirements, adding products to shopping carts, and finally checking out the products and paying for them by credit card.
+				We also assess the <b>efficiency</b> of each architecture by measuring task runtime and token usage. The analysis of input and output tokens provides a basis for estimating both the operational cost of each agent as well as its energy consumption and environmental impact.
               </p>
               <p>
                 The experiments show that these specialized agents can deliver equal and in certain cases superior performance compared to browser-based
@@ -857,17 +857,11 @@
             <h2 class="title is-3">Related Work</h2>
             <div class="content has-text-justified">
               <p>
-                [<a href="#Yehudai2025">Yehudai2025</a>] survey benchmarks for the evaluation of LLM agents and categorize them according to the
-                agent's application domain as well as the agent capabilities that are evaluated. Other benchmarks that also evaluate the capability of
-                Web agents to perform online shopping are the
-                <a href="https://webshop-pnlp.github.io/">WebShop</a>
-                benchmark as well as the
-                <a href="https://webarena.dev/">WebArena</a> and
-                <a href="https://osu-nlp-group.github.io/Mind2Web/">Mind2Web</a>
-                benchmarks, which feature e-commerce tasks as part of a wider task set. Compared to these benchmarks, the WebMall benchmark requires
-                agents to perform longer running tasks (due to visiting multiple shops), to deal with heterogeneous product data originating from
-                different real-world sources, and perform advanced searches such as finding compatible or substitute products.
-              </p>
+                The closest related work to our experiments is [<a href="#Song2025">Song (2025)</a>], which uses tasks from the WebArena benchmark to compare LLM agents that access 
+				websites via APIs with agents that browse HTML interfaces. The study concludes that API-based agents are more effective than HTML agents, with hybrid agents achieving the best overall performance.
+				A second relevant study is [<a href="#Zhang2025">Zhang (2025)</a>], which compares API agents to GUI agents. This paper introduces a set of dimensions for comparing 
+				API and GUI agents and reports the results of an experimental evaluation using 27 office-related tasks, involving Word, Excel, and PPT.</p>
+			 <p>A survey of agents for computer use, including Web agents, is presented by [<a href="#Sager2025">Sager (2025)</a>]. [<a href="#Yehudai2025">Yehudai (2025)</a>] surveys benchmarks used for evaluating LLM agents, while [<a href="#Petrova2025">Petrova (2025)</a>] discusses LLM-based agents in the context of the historical development of the Semantic Web and FIPA-based multi-agent systems.              </p>
             </div>
           </div>
         </div>
@@ -881,18 +875,18 @@
           <div class="column is-full-width">
             <h2 class="title is-3">References</h2>
             <div class="content has-text-justified">
-              <p id="Brinkmann2023">
-                [Brinkmann2023] Brinkmann, Alexander, et al.:
+              <p id="Song2025">
+                [Song2025] Song, Yueqi, et al.:
                 <a
-                  href="https://www.uni-mannheim.de/media/Einrichtungen/dws/Files_Research/Web-based_Systems/pub/Brinkmann-etal-TheWDCSchemaorgDataSetSeries-WWW2023.pdf"
+                  href="https://arxiv.org/abs/2410.16464"
                   target="_blank"
                 >
-                  The Web Data Commons Schema.org Data Set Series</a
-                >. Companion Proceedings of the ACM Web Conference, 2023.
+                  Beyond Browsing: API-Based Web Agents</a
+                >. arXiv:2410.16464, 2025.
               </p>
-              <p id="Chezelles2025">
-                [Chezelles2025] Le Sellier De Chezelles, Thibault, et al.:
-                <a href="https://arxiv.org/pdf/2412.05467" target="_blank"> The BrowserGym Ecosystem for Web Agent Research</a>. arXiv:2412.05467,
+              <p id="Zhang2025">
+                [Zhang2025] Zhang, Chaoyun, et al.:
+                <a href="https://arxiv.org/pdf/2503.11069" target="_blank"> Api agents vs. gui agents: Divergence and convergence</a>. arXiv:22503.11069,
                 2025.
               </p>
               <p id="Yehudai2025">
