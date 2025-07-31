@@ -234,16 +234,19 @@
             <h2 class="title is-3">Introduction</h2>
             <div class="content has-text-justified">
               <p>
-                This work implements and compares three agent-specific interfaces for web-based e-commerce tasks using the WebMall benchmark. We built
-                custom agent architectures using Retrieval-Augmented Generation (RAG), MCP-based protocols, and NLWeb + MCP systems, then tested how these agents
-                perform when equipped with different interface approaches versus traditional browser-based navigation.
+                LLM agents use different architectures and interfaces to interact with the World Wide Web. Some agents rely on traditional web browsers to navigate HTML pages originally designed for human users. Others do not directly access websites but instead retrieve web content by querying search engines that have indexed the web. 
+				A third architectural approach assumes that websites expose site-specific Web APIs, which agents interact with via the Model Context Protocol (MCP). A fourth architecture, proposed by Microsoft under the NLWeb initiative, defines a standardized interface through which agents query individual websites and receive responses formatted as structured schema.org data.
               </p>
               <p>
-                Each agent takes a different approach to the same e-commerce tasks. The RAG Agent builds a single search index from scraped web content across all shops. The MCP Agent connects directly to individual shop MCPs that serve heterogeneous product data. The NLWeb Agent incorporates this MCP-based approach, but instead of providing heterogeneous product data, it adheres to the schema.org product format.
-
+                This page presents the results of the first experimental comparison of these four architectures, using a common set of tasks within an e-commerce scenario. The experiments were conducted across four e-shops, each offering products via different interfaces. 
+				Four corresponding LLM agents — the MCP agent, RAG agent, NLWeb agent, and HTML agent — are evaluated performing the same set of 91 tasks, each using a different method for interacting with the shops.
               </p>
               <p>
-                Our results show that these specialized agents can deliver equal and in certain cases superior performance compared to browser-based
+                We compare the effectiveness (success rate, F1) of the different agents in solving the tasks, which are grouped into categories such as searching for specific products, searching for the cheapest product given concrete or vague requirements, adding products to shopping carts, and finally checking out the products and paying for them by credit card.
+				We also assess the efficiency of each architecture by measuring task runtime and token usage. The analysis of input and output tokens provides a basis for estimating both the operational cost of each agent as well as its energy consumption and environmental impact.
+              </p>
+              <p>
+                The experiments show that these specialized agents can deliver equal and in certain cases superior performance compared to browser-based
                 agents, while incurring 5-10 times lower token costs. We tested all agent architectures on WebMall's full task set, from basic product searches
                 to end-to-end purchasing workflows. These findings demonstrate that purpose-built agent interfaces
                 can significantly improve both effectiveness and efficiency in web-based agent systems.
