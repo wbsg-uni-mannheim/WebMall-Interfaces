@@ -158,13 +158,13 @@ function createCostTable(data, InterfaceNames, taskType, completionRates) {
     const costData = Object.values(groupedData).map((group) => {
         // Define task counts per category
         const taskCounts = {
-            'Basic': 48,
-            'Advanced': 43
+            Basic: 48,
+            Advanced: 43,
         };
-        
+
         // Get the correct divisor for this task type
         const taskCount = taskCounts[taskType] || 1;
-        
+
         // Calculate true averages per task (not per interface run)
         const avgPromptTokens = Math.round(group.promptTokens / taskCount);
         const avgCompletionTokens = Math.round(
@@ -271,7 +271,14 @@ function createCostTable(data, InterfaceNames, taskType, completionRates) {
     tableWrapper.appendChild(table);
 
     // Highlight best results after table is created
-    const costColumns = ['Interface', 'Model', 'Task Type', 'Prompt Tokens', 'Completion Tokens', 'Total Cost'];
+    const costColumns = [
+        "Interface",
+        "Model",
+        "Task Type",
+        "Prompt Tokens",
+        "Completion Tokens",
+        "Total Cost",
+    ];
     highlightBestResults(table, costColumns);
 
     return tableWrapper;
@@ -418,11 +425,21 @@ function createResultsTable(data, filterFunc, InterfaceNames, taskType) {
     });
 
     table.appendChild(tbody);
-    
+
     // Highlight best results after table is created
-    const resultsColumns = ['Interface', 'Model', 'task_completion_rate', 'avg_precision', 'avg_recall', 'f1_score', 'prompt_tokens', 'completion_tokens'];
+    const resultsColumns = [
+        "Interface",
+        "Model",
+        "Task_type",
+        "task_completion_rate",
+        "avg_precision",
+        "avg_recall",
+        "f1_score",
+        "prompt_tokens",
+        "completion_tokens",
+    ];
     highlightBestResults(table, resultsColumns);
-    
+
     return table;
 }
 
@@ -653,7 +670,7 @@ function createCategoryResultsTable(data, InterfaceNames, filterTaskType) {
             separatorCell.style.fontWeight = "bold";
             separatorCell.style.fontSize = "0.9em";
             separatorCell.style.color = "#666";
-            
+
             // Format category name for display
             let categoryDisplayName = currentCategory;
             if (currentCategory) {
@@ -662,19 +679,24 @@ function createCategoryResultsTable(data, InterfaceNames, filterTaskType) {
                     .replace(/_/g, " ")
                     .replace(/([A-Z])/g, " $1")
                     .trim();
-                
+
                 // Apply rename mapping
                 const categoryRenameMap = {
-                    "Best Fit Specific": "Products Fulfilling Specific Requirements",
+                    "Best Fit Specific":
+                        "Products Fulfilling Specific Requirements",
                     "Best Fit Vague": "Satisfying Vague Requirements",
-                    "Cheapest Best Fit Specific": "Cheapest Offer Specific Requirements",
-                    "Cheapest Best Fit Vague": "Cheapest Offer Vague Requirements",
-                    "Substitutes": "Find Substitutes",
+                    "Cheapest Best Fit Specific":
+                        "Cheapest Offer Specific Requirements",
+                    "Cheapest Best Fit Vague":
+                        "Cheapest Offer Vague Requirements",
+                    Substitutes: "Find Substitutes",
                 };
-                
-                categoryDisplayName = categoryRenameMap[categoryDisplayName] || categoryDisplayName;
+
+                categoryDisplayName =
+                    categoryRenameMap[categoryDisplayName] ||
+                    categoryDisplayName;
             }
-            
+
             separatorCell.textContent = categoryDisplayName;
 
             separatorRow.appendChild(separatorCell);
@@ -894,34 +916,49 @@ function createCategorySummaryTable(data, InterfaceNames) {
     tableWrapper.appendChild(table);
 
     // Highlight best results - for summary table, we want to highlight across all rows
-    const summaryColumns = ['Category'].concat(InterfaceNames).concat(['HTML Agent']);
-    highlightBestInGroup(Array.from(table.querySelectorAll('tbody tr')), summaryColumns);
+    const summaryColumns = ["Category"]
+        .concat(InterfaceNames)
+        .concat(["HTML Agent"]);
+    highlightBestInGroup(
+        Array.from(table.querySelectorAll("tbody tr")),
+        summaryColumns
+    );
 
     return tableWrapper;
 }
 
 // Function to highlight best results in a table
 function highlightBestResults(table, columns) {
-    const tbody = table.querySelector('tbody');
-    const rows = Array.from(tbody.querySelectorAll('tr'));
-    
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
     // Skip separator rows and get data rows only
-    const dataRows = rows.filter(row => 
-        !row.style.backgroundColor.includes('#f0f0f0') && 
-        row.cells.length > 0 && 
-        row.style.height !== '10px'
+    const dataRows = rows.filter(
+        (row) =>
+            !row.style.backgroundColor.includes("#f0f0f0") &&
+            row.cells.length > 0 &&
+            row.style.height !== "10px"
     );
-    
+
     if (dataRows.length === 0) return;
-    
+
     // For category tables, group by category
-    const isCategoryTable = columns.includes('Category') || columns.some(col => col.toLowerCase().includes('category'));
-    
+    const isCategoryTable =
+        columns.includes("Category") ||
+        columns.some((col) => col.toLowerCase().includes("category"));
+
     if (isCategoryTable) {
         // Group rows by category
         const categoryGroups = {};
-        dataRows.forEach(row => {
-            const categoryCell = row.cells[columns.findIndex(col => col.toLowerCase().includes('category') || col === 'Category')];
+        dataRows.forEach((row) => {
+            const categoryCell =
+                row.cells[
+                    columns.findIndex(
+                        (col) =>
+                            col.toLowerCase().includes("category") ||
+                            col === "Category"
+                    )
+                ];
             if (categoryCell) {
                 const category = categoryCell.textContent.trim();
                 if (!categoryGroups[category]) {
@@ -930,9 +967,9 @@ function highlightBestResults(table, columns) {
                 categoryGroups[category].push(row);
             }
         });
-        
+
         // Highlight best results within each category group
-        Object.values(categoryGroups).forEach(groupRows => {
+        Object.values(categoryGroups).forEach((groupRows) => {
             highlightBestInGroup(groupRows, columns);
         });
     } else {
@@ -943,38 +980,49 @@ function highlightBestResults(table, columns) {
 
 function highlightBestInGroup(rows, columns) {
     // Define which columns should be maximized vs minimized
-    const maxColumns = ['task_completion_rate', 'avg_precision', 'avg_recall', 'f1_score'];
-    const minColumns = ['prompt_tokens', 'completion_tokens', 'Prompt Tokens', 'Completion Tokens', 'Total Cost'];
-    
+    const maxColumns = [
+        "task_completion_rate",
+        "avg_precision",
+        "avg_recall",
+        "f1_score",
+    ];
+    const minColumns = [
+        "prompt_tokens",
+        "completion_tokens",
+        "Prompt Tokens",
+        "Completion Tokens",
+        "Total Cost",
+    ];
+
     // For each numeric column, find the best value and highlight it
     columns.forEach((column, colIndex) => {
         const isMaxColumn = maxColumns.includes(column);
         const isMinColumn = minColumns.includes(column);
-        
+
         if (isMaxColumn || isMinColumn) {
             const values = [];
-            
+
             rows.forEach((row, rowIndex) => {
                 const cell = row.cells[colIndex];
-                if (cell && cell.getAttribute('data-type') === 'number') {
-                    const text = cell.textContent.replace(/[%,]/g, '');
+                if (cell && cell.getAttribute("data-type") === "number") {
+                    const text = cell.textContent.replace(/[%,]/g, "");
                     const value = parseFloat(text);
                     if (!isNaN(value)) {
                         values.push({ value, rowIndex, cell });
                     }
                 }
             });
-            
+
             if (values.length > 0) {
                 // Find best value
-                const bestValue = isMaxColumn 
-                    ? Math.max(...values.map(v => v.value))
-                    : Math.min(...values.map(v => v.value));
-                
+                const bestValue = isMaxColumn
+                    ? Math.max(...values.map((v) => v.value))
+                    : Math.min(...values.map((v) => v.value));
+
                 // Highlight all cells with the best value
-                values.forEach(({value, cell}) => {
+                values.forEach(({ value, cell }) => {
                     if (value === bestValue) {
-                        cell.classList.add('best-result');
+                        cell.classList.add("best-result");
                     }
                 });
             }
