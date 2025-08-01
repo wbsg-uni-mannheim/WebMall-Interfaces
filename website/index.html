@@ -939,6 +939,63 @@ async def checkout_cart_techtalk(
 
     <!-- Related Work Section -->
     <section class="section" id="related-work">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column is-full-width">
+              <h2 class="title is-3">Setup Instructions and Running the Benchmark</h2>
+              <div class="content has-text-justified">
+                <p>
+                  To reproduce our experiments or run the benchmarks with your own agent implementations, follow these setup instructions. The complete code and documentation are available in our 
+                  <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces" target="_blank">GitHub repository</a>.
+                </p>
+                
+                <h3 class="title is-4">Prerequisites</h3>
+                <ul>
+                  <li><strong>Python 3.8+</strong>: Required for all agent implementations</li>
+                  <li><strong>Elasticsearch 8.x</strong>: Running on <code>http://localhost:9200</code></li>
+                  <li><strong>OpenAI API Key</strong>: For embeddings and LLM calls</li>
+                  <li><strong>Optional</strong>: Anthropic API key for Claude model support</li>
+                </ul>
+
+                <h3 class="title is-4">Quick Start</h3>
+                <div class="code-block">
+                  <pre>
+# Clone repository
+git clone https://github.com/wbsg-uni-mannheim/WebMall-Interfaces.git
+cd WebMall-Interfaces
+
+# Install dependencies  
+pip install -r requirements.txt
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your API keys
+
+# Index data (required for NLWeb and API MCP)
+cd src/nlweb_mcp
+python ingest_data.py --shop all --force-recreate
+
+# Run benchmarks
+cd ..
+python benchmark_nlweb_mcp.py    # NLWeb interface
+python benchmark_rag.py          # RAG interface  
+python benchmark_api_mcp.py      # API MCP interface</pre>
+                </div>
+
+                <p>
+                  For detailed setup instructions and interface-specific configuration, see the 
+                  <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/blob/main/README.md" target="_blank">main README</a> 
+                  and individual interface documentation in the 
+                  <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/tree/main/src" target="_blank">src/ directory</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    <!-- Related Work Section -->
+    <section class="section" id="related-work">
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column is-full-width">
