@@ -1,1490 +1,1127 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta
-            name="description"
-            content="Comparing Agent Interfaces for Web-based Agents on the WebMall Benchmark"
-        />
-        <meta
-            name="keywords"
-            content="WebMall, Agent Interfaces, RAG, MCP, NLWeb, LLM Agents, Benchmark Evaluation"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Comparing Agent Interfaces on the WebMall Benchmark</title>
-        <link
-            href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-            rel="stylesheet"
-        />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Comparing Agent Interfaces for Web-based Agents on the WebMall Benchmark" />
+    <meta name="keywords" content="WebMall, Agent Interfaces, RAG, MCP, NLWeb, LLM Agents, Benchmark Evaluation" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Comparing Agent Interfaces on the WebMall Benchmark</title>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet" />
 
-        <link rel="stylesheet" href="./static/css/bulma.min.css" />
-        <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
-        <link rel="stylesheet" href="./static/css/bulma-slider.min.css" />
-        <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
-        />
-        <link rel="stylesheet" href="./static/css/index.css" />
-        <link rel="icon" href="./static/images/favicon.ico" />
+    <link rel="stylesheet" href="./static/css/bulma.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css" />
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="icon" href="./static/images/favicon.ico" />
 
-        <style>
-            .results-table {
-                position: relative;
-                width: 90vw;
-                max-width: 1400px;
-                left: 50%;
-                transform: translateX(-50%);
-                overflow-x: auto;
-                margin: 1.5rem 0;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-                border-radius: 8px;
-            }
+    <style>
+      .results-table {
+        position: relative;
+        width: 90vw;
+        max-width: 1400px;
+        left: 50%;
+        transform: translateX(-50%);
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
 
-            .results-table table {
-                width: 100%;
-                table-layout: auto;
-                font-size: 0.9rem;
-                border-collapse: separate;
-                border-spacing: 0;
-                background: white;
-                border-radius: 8px;
-                overflow: hidden;
-            }
+      .results-table table {
+        width: 100%;
+        table-layout: auto;
+        font-size: 0.9rem;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+      }
 
-            .results-table th,
-            .results-table td {
-                padding: 0.75em 0.5em;
-                text-align: center;
-                border-bottom: 1px solid #e5e7eb;
-                vertical-align: middle;
-                white-space: nowrap;
-            }
+      .results-table th,
+      .results-table td {
+        padding: 0.75em 0.5em;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
 
-            .results-table th:first-child,
-            .results-table td:first-child {
-                text-align: left;
-                white-space: normal;
-                word-wrap: break-word;
-                min-width: 120px;
-                max-width: 200px;
-                padding-left: 1em;
-            }
+      .results-table th:first-child,
+      .results-table td:first-child {
+        text-align: left;
+        white-space: normal;
+        word-wrap: break-word;
+        min-width: 120px;
+        max-width: 200px;
+        padding-left: 1em;
+      }
 
-            .results-table td[data-type="number"],
-            .results-table td:matches-text("^\\d+$"),
-            .results-table td:matches-text("\\d+\\.\\d+%?$") {
-                text-align: center;
-                font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-                font-weight: 500;
-            }
+      .results-table td[data-type="number"],
+      .results-table td:matches-text("^\\d+$"),
+      .results-table td:matches-text("\\d+\\.\\d+%?$") {
+        text-align: center;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-weight: 500;
+      }
 
-            .results-table thead th {
-                background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
-                color: #2d3748;
-                font-weight: 600;
-                font-size: 0.85rem;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                position: sticky;
-                top: 0;
-                z-index: 10;
-            }
+      .results-table thead th {
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+        color: #2d3748;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
 
-            .results-table tbody tr {
-                transition: background-color 0.2s ease;
-            }
+      .results-table tbody tr {
+        transition: background-color 0.2s ease;
+      }
 
-            .results-table tbody tr:hover {
-                background-color: #f7fafc;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            }
+      .results-table tbody tr:hover {
+        background-color: #f7fafc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
 
-            .results-table tbody tr:nth-child(even) {
-                background-color: #f9fafb;
-            }
+      .results-table tbody tr:nth-child(even) {
+        background-color: #f9fafb;
+      }
 
-            .best-result {
-                font-weight: bold;
-            }
-            .code-block {
-                background-color: #1e1e1e;
-                color: #d4d4d4;
-                padding: 1rem;
-                border-radius: 4px;
-                overflow-x: auto;
-                font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-                font-size: 0.875rem;
-                margin: 1rem 0;
-            }
+      .best-result {
+        font-weight: bold;
+      }
+      .code-block {
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+        padding: 1rem;
+        border-radius: 4px;
+        overflow-x: auto;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 0.875rem;
+        margin: 1rem 0;
+      }
 
-            .architecture-diagram {
-                max-width: 100%;
-                margin: 1.5rem auto;
-                display: block;
-                background-color: #ffffff;
-                border-radius: 8px;
-                padding: 1rem;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            }
+      .architecture-diagram {
+        max-width: 100%;
+        margin: 1.5rem auto;
+        display: block;
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
 
-            .navbar {
-                background-color: #fff;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                position: sticky;
-                top: 0;
-                z-index: 100;
-            }
+      .navbar {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
 
-            .navbar-item {
-                font-weight: 500;
-            }
+      .navbar-item {
+        font-weight: 500;
+      }
 
-            .navbar-item:hover {
-                background-color: #f5f5f5;
-            }
+      .navbar-item:hover {
+        background-color: #f5f5f5;
+      }
 
-            .text-content-constrained {
-                max-width: 800px;
-                margin: 0 auto;
-            }
-        </style>
+      .text-content-constrained {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    </style>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script defer src="./static/js/fontawesome.all.min.js"></script>
-    </head>
-    <body>
-        <!-- Navigation -->
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="#home">
-                    <strong>Agent Interface Comparison</strong>
-                </a>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="#home">
+          <strong>Agent Interface Comparison</strong>
+        </a>
+      </div>
+
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="#motivation"> Motivation </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link"> Agent Interfaces </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="#rag"> RAG Agent </a>
+              <a class="navbar-item" href="#mcp"> MCP Agent </a>
+              <a class="navbar-item" href="#nlweb-mcp"> NLWeb Agent </a>
             </div>
+          </div>
+          <a class="navbar-item" href="#technical"> Technical Details </a>
+          <a class="navbar-item" href="#use-case"> Use Case </a>
+          <a class="navbar-item" href="#results"> Results </a>
+          <a class="navbar-item" href="#discussion"> Discussion </a>
+          <a class="navbar-item" href="#related-work"> Related Work </a>
+          <a class="navbar-item" href="#references"> References </a>
+          <a class="navbar-item" href="#feedback"> Feedback </a>
+        </div>
+      </div>
+    </nav>
 
-            <div class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="#motivation"> Motivation </a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link"> Agent Interfaces </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="#rag"> RAG Agent </a>
-                            <a class="navbar-item" href="#mcp"> MCP Agent </a>
-                            <a class="navbar-item" href="#nlweb-mcp">
-                                NLWeb Agent
-                            </a>
-                        </div>
-                    </div>
-                    <a class="navbar-item" href="#technical">
-                        Technical Details
-                    </a>
-                    <a class="navbar-item" href="#use-case"> Use Case </a>
-                    <a class="navbar-item" href="#results"> Results </a>
-                    <a class="navbar-item" href="#related-work">
-                        Related Work
-                    </a>
-                    <a class="navbar-item" href="#references"> References </a>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Hero Section -->
-        <section class="hero" id="home">
-            <div class="hero-body">
-                <div class="container is-max-desktop">
-                    <div class="columns is-centered">
-                        <div class="column has-text-centered">
-                            <h1 class="title is-1 publication-title">
-                                MCP vs RAG vs NLWeb vs HTML:<br />
-                                A Comparison of the Effectiveness and Efficiency
-                                of Different Agent Interfaces to the Web
-                            </h1>
-                            <div class="is-size-5 publication-authors">
-                                <span class="author-block">
-                                    <a
-                                        href="https://www.uni-mannheim.de/dws/people/researchers/phd-students/aaron-steiner/"
-                                        >Aaron Steiner</a
-                                    >,
-                                </span>
-                                <span class="author-block">
-                                    <a
-                                        href="https://www.uni-mannheim.de/dws/people/researchers/postdoctoral-research-fellows/dr-ralph-peeters/"
-                                        >Ralph Peeters</a
-                                    >,
-                                </span>
-                                <span class="author-block">
-                                    <a
-                                        href="https://www.uni-mannheim.de/dws/people/professors/prof-dr-christian-bizer/"
-                                        >Christian Bizer</a
-                                    >
-                                </span>
-                            </div>
-                            <div class="is-size-5 publication-authors">
-                                <span class="author-block">
-                                    <a
-                                        href="https://www.uni-mannheim.de/dws/research/focus-groups/web-based-systems-prof-bizer/"
-                                    >
-                                        Data and Web Science Group, University
-                                        of Mannheim
-                                    </a>
-                                </span>
-                            </div>
-                            <div class="column has-text-centered">
-                                <div class="publication-links">
-                                    <span class="link-block">
-                                        <a
-                                            href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces"
-                                            class="external-link button is-normal is-rounded is-dark"
-                                        >
-                                            <span class="icon">
-                                                <i class="fab fa-github"></i>
-                                            </span>
-                                            <span>Code</span>
-                                        </a>
-                                    </span>
-                                    <span class="link-block">
-                                        <a
-                                            href="https://wbsg-uni-mannheim.github.io/WebMall/"
-                                            class="external-link button is-normal is-rounded is-dark"
-                                        >
-                                            <span class="icon">
-                                                <i class="fas fa-chart-bar"></i>
-                                            </span>
-                                            <span>WebMall Benchmark</span>
-                                        </a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Motivation Section -->
-        <section class="section" id="motivation">
-            <div class="container is-max-desktop">
-                <!-- Introduction -->
-                <div class="columns is-centered has-text-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">Introduction</h2>
-                        <div class="content has-text-justified">
-                            <p>
-                                LLM agents use different architectures and
-                                interfaces to interact with the World Wide Web.
-                                Some agents rely on traditional web browsers to
-                                <b>navigate HTML pages</b> originally designed
-                                for human users. Others do not directly access
-                                websites but instead retrieve web content by
-                                <b>querying search engines</b> that have indexed
-                                the Web. A third architectural approach assumes
-                                that websites expose
-                                <b>site-specific Web APIs</b>, which agents
-                                interact with via the Model Context Protocol
-                                (MCP). A fourth architecture, proposed by
-                                Microsoft under the <b>NLWeb initiative</b>,
-                                defines a standardized interface through which
-                                agents query individual websites and receive
-                                responses formatted as structured schema.org
-                                data.
-                            </p>
-                            <p>
-                                This page presents the results of the first
-                                experimental comparison of these four
-                                architectures, using the
-                                <b>same set of tasks</b> within an e-commerce
-                                scenario. The experiments were conducted across
-                                four simulated e-shops, each offering products
-                                via different interfaces. Four corresponding LLM
-                                agents — the MCP agent, RAG agent, NLWeb agent,
-                                and HTML agent — are evaluated performing the
-                                same set of 91 tasks, each using a different
-                                method for interacting with the shops.
-                            </p>
-                            <p>
-                                We compare the <b>effectiveness</b> (success
-                                rate, F1) of the different agents in solving the
-                                tasks, which are grouped into categories such as
-                                searching for specific products, searching for
-                                the cheapest product given concrete or vague
-                                requirements, adding products to shopping carts,
-                                and finally checking out the products and paying
-                                for them by credit card. We also assess the
-                                <b>efficiency</b> of each architecture by
-                                measuring task runtime and token usage. The
-                                analysis of input and output tokens provides a
-                                basis for estimating both the operational cost
-                                of each agent as well as its energy consumption
-                                and environmental impact.
-                            </p>
-                            <p>
-                                The experiments show that these specialized
-                                agents can deliver equal and in certain cases
-                                superior performance compared to browser-based
-                                agents, while incurring 5-10 times lower token
-                                costs. We tested all agent architectures on
-                                WebMall's full task set, from basic product
-                                searches to end-to-end purchasing workflows.
-                                These findings demonstrate that purpose-built
-                                agent interfaces can significantly improve both
-                                effectiveness and efficiency in web-based agent
-                                systems.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Architecture Diagram -->
-        <section class="section" id="architecture">
-            <div class="container is-max-desktop">
-                <h2 class="title is-3 has-text-centered">
-                    Interface Architectures (@Chris will remove or rework ignore
-                    for now)
-                </h2>
-                <div class="architecture-diagram">
-                    <svg
-                        width="100%"
-                        viewBox="0 0 1200 450"
-                        xmlns="http://www.w3.org/2000/svg"
-                        font-family="sans-serif"
-                        font-size="14"
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">
+                MCP vs RAG vs NLWeb vs HTML:<br />
+                A Comparison of the Effectiveness and Efficiency of Different Agent Interfaces to the Web
+              </h1>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="https://www.uni-mannheim.de/dws/people/researchers/phd-students/aaron-steiner/">Aaron Steiner</a>,
+                </span>
+                <span class="author-block">
+                  <a href="https://www.uni-mannheim.de/dws/people/researchers/postdoctoral-research-fellows/dr-ralph-peeters/">Ralph Peeters</a>,
+                </span>
+                <span class="author-block">
+                  <a href="https://www.uni-mannheim.de/dws/people/professors/prof-dr-christian-bizer/">Christian Bizer</a>
+                </span>
+              </div>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="https://www.uni-mannheim.de/dws/research/focus-groups/web-based-systems-prof-bizer/">
+                    Data and Web Science Group, University of Mannheim
+                  </a>
+                </span>
+              </div>
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a
+                      href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces"
+                      class="external-link button is-normal is-rounded is-dark"
                     >
-                        <style>
-                            .title {
-                                font-size: 20px;
-                                font-weight: bold;
-                                text-anchor: middle;
-                            }
-                            .label {
-                                font-size: 12px;
-                            }
-                            .box {
-                                stroke: #333;
-                                stroke-width: 1.5;
-                                rx: 5;
-                            }
-                            .agent {
-                                fill: #fff3e0;
-                                stroke: #ffcc80;
-                            }
-                            .mcp {
-                                fill: #fce4ec;
-                                stroke: #f8bbd0;
-                            }
-                            .index {
-                                fill: #e8f5e9;
-                                stroke: #a5d6a7;
-                            }
-                            .shop {
-                                fill: #e3f2fd;
-                                stroke: #90caf9;
-                            }
-                            .arrow {
-                                stroke: #333;
-                                stroke-width: 1.5;
-                                fill: none;
-                                marker-end: url(#arrowhead);
-                            }
-                            .t-middle {
-                                text-anchor: middle;
-                            }
-                            .t-start {
-                                text-anchor: start;
-                            }
-                        </style>
-                        <defs>
-                            <marker
-                                id="arrowhead"
-                                viewBox="0 0 10 10"
-                                refX="8"
-                                refY="5"
-                                markerWidth="6"
-                                markerHeight="6"
-                                orient="auto-start-reverse"
-                            >
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
-                            </marker>
-                        </defs>
-
-                        <!-- RAG -->
-                        <g transform="translate(50, 20)">
-                            <text x="125" y="20" class="title">RAG</text>
-                            <rect
-                                x="85"
-                                y="50"
-                                width="80"
-                                height="50"
-                                class="box agent"
-                            />
-                            <text x="125" y="80" class="label t-middle">
-                                Agent
-                            </text>
-                            <path d="M 125 100 L 125 130" class="arrow" />
-                            <text x="130" y="120" class="label">queries</text>
-                            <rect
-                                x="0"
-                                y="130"
-                                width="250"
-                                height="180"
-                                class="box index"
-                            />
-                            <text
-                                x="125"
-                                y="150"
-                                class="label t-middle"
-                                style="font-weight: bold"
-                            >
-                                Unified Index
-                            </text>
-                            <text x="10" y="175" class="label t-start">
-                                Fields: title, summary, content, url
-                            </text>
-                            <text
-                                x="10"
-                                y="195"
-                                class="label t-start"
-                                style="font-weight: bold"
-                            >
-                                Embeddings:
-                            </text>
-                            <text x="10" y="215" class="label t-start">
-                                - title_embedding
-                            </text>
-                            <text x="10" y="235" class="label t-start">
-                                - summary_embedding
-                            </text>
-                            <text x="10" y="255" class="label t-start">
-                                - content_embedding
-                            </text>
-                            <text x="10" y="275" class="label t-start">
-                                - composite_embedding
-                            </text>
-                        </g>
-
-                        <!-- NLWeb + MCP -->
-                        <g transform="translate(420, 20)">
-                            <text x="180" y="20" class="title">
-                                NLWeb + MCP
-                            </text>
-                            <rect
-                                x="140"
-                                y="50"
-                                width="80"
-                                height="50"
-                                class="box agent"
-                            />
-                            <text x="180" y="80" class="label t-middle">
-                                Agent
-                            </text>
-                            <path d="M 180 100 L 180 130" class="arrow" />
-                            <text x="185" y="120" class="label">calls</text>
-                            <rect
-                                x="130"
-                                y="130"
-                                width="100"
-                                height="50"
-                                class="box mcp"
-                            />
-                            <text x="180" y="160" class="label t-middle">
-                                MCP Servers
-                            </text>
-                            <path d="M 180 180 L 180 210" class="arrow" />
-                            <text x="185" y="200" class="label">queries</text>
-
-                            <g transform="translate(0, 220)">
-                                <rect
-                                    x="0"
-                                    y="0"
-                                    width="170"
-                                    height="75"
-                                    class="box index"
-                                />
-                                <text
-                                    x="85"
-                                    y="15"
-                                    class="label t-middle"
-                                    style="font-weight: bold"
-                                >
-                                    Index 1 (Structured)
-                                </text>
-                                <text x="10" y="35" class="label t-start">
-                                    Fields: product_id, price
-                                </text>
-                                <text x="10" y="50" class="label t-start">
-                                    Embeddings: title, content
-                                </text>
-                            </g>
-                            <g transform="translate(190, 220)">
-                                <rect
-                                    x="0"
-                                    y="0"
-                                    width="170"
-                                    height="75"
-                                    class="box index"
-                                />
-                                <text
-                                    x="85"
-                                    y="15"
-                                    class="label t-middle"
-                                    style="font-weight: bold"
-                                >
-                                    Index 2 (Structured)
-                                </text>
-                            </g>
-                            <g transform="translate(0, 310)">
-                                <rect
-                                    x="0"
-                                    y="0"
-                                    width="170"
-                                    height="75"
-                                    class="box index"
-                                />
-                                <text
-                                    x="85"
-                                    y="15"
-                                    class="label t-middle"
-                                    style="font-weight: bold"
-                                >
-                                    Index 3 (Structured)
-                                </text>
-                            </g>
-                            <g transform="translate(190, 310)">
-                                <rect
-                                    x="0"
-                                    y="0"
-                                    width="170"
-                                    height="75"
-                                    class="box index"
-                                />
-                                <text
-                                    x="85"
-                                    y="15"
-                                    class="label t-middle"
-                                    style="font-weight: bold"
-                                >
-                                    Index 4 (Structured)
-                                </text>
-                            </g>
-                        </g>
-
-                        <!-- MCP-based -->
-                        <g transform="translate(800, 20)">
-                            <text x="180" y="20" class="title">MCP-based</text>
-                            <rect
-                                x="140"
-                                y="50"
-                                width="80"
-                                height="50"
-                                class="box agent"
-                            />
-                            <text x="180" y="80" class="label t-middle">
-                                Agent
-                            </text>
-                            <path d="M 180 100 L 180 130" class="arrow" />
-                            <text x="185" y="120" class="label">calls</text>
-                            <rect
-                                x="130"
-                                y="130"
-                                width="100"
-                                height="50"
-                                class="box mcp"
-                            />
-                            <text x="180" y="160" class="label t-middle">
-                                MCP Servers
-                            </text>
-                            <path d="M 180 180 L 180 210" class="arrow" />
-                            <text x="185" y="200" class="label">API reqs</text>
-
-                            <g transform="translate(0, 220)">
-                                <rect
-                                    x="0"
-                                    y="0"
-                                    width="170"
-                                    height="50"
-                                    class="box shop"
-                                />
-                                <text x="85" y="30" class="label t-middle">
-                                    Shop 1 API
-                                </text>
-                            </g>
-                            <g transform="translate(190, 220)">
-                                <rect
-                                    x="0"
-                                    y="0"
-                                    width="170"
-                                    height="50"
-                                    class="box shop"
-                                />
-                                <text x="85" y="30" class="label t-middle">
-                                    Shop 2 API
-                                </text>
-                            </g>
-                            <g transform="translate(0, 285)">
-                                <rect
-                                    x="0"
-                                    y="0"
-                                    width="170"
-                                    height="50"
-                                    class="box shop"
-                                />
-                                <text x="85" y="30" class="label t-middle">
-                                    Shop 3 API
-                                </text>
-                            </g>
-                            <g transform="translate(190, 285)">
-                                <rect
-                                    x="0"
-                                    y="0"
-                                    width="170"
-                                    height="50"
-                                    class="box shop"
-                                />
-                                <text x="85" y="30" class="label t-middle">
-                                    Shop 4 API
-                                </text>
-                            </g>
-                        </g>
-                    </svg>
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Code</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a href="https://wbsg-uni-mannheim.github.io/WebMall/" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-chart-bar"></i>
+                      </span>
+                      <span>WebMall Benchmark</span>
+                    </a>
+                  </span>
                 </div>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- RAG Section -->
-        <section class="section" id="rag">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">
-                            Agent querying a Search Engine (RAG Agent)
-                        </h2>
-                        <div class="content">
-                            <p>
-                                Retrieval-Augmented Generation (RAG) is an
-                                architectural approach designed to make Large
-                                Language Model (LLM) outputs more accurate and
-                                reliable by integrating external data retrieval
-                                into the text generation process. Before
-                                answering a query, the model first searches a
-                                knowledge base for relevant, up-to-date
-                                information. This process ensures the generated
-                                response is grounded in evidence, which can
-                                significantly reduce inaccuracies and the risk
-                                of "hallucination".
-                            </p>
-                            <p>
-                                Our implementation builds on this foundation.
-                                Based on an analysis of a task's complexity, the
-                                agent can generate multiple, strategically
-                                different queries to find the most relevant
-                                results. These queries are run against one
-                                Elasticsearch index that contains data from all
-                                four WebMall shops. This data is obtained by
-                                scraping the web content of the shops. While we
-                                use the Unstructured library to clean the page
-                                contents, the records are still very much
-                                unstructured. A composite embedding is created
-                                for each record that combines the title and
-                                content field. This composite embedding is used
-                                to perform a semantic search on the index. An
-                                example for such a record can be found
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/website/examples/rag_elastic.json"
-                                    target="_blank"
-                                    >here</a
-                                >.
-                            </p>
-                            <p>
-                                To complete the complex tasks in the WebMall
-                                benchmark, an agent must do more than simply
-                                retrieve information. It also needs to perform
-                                actions like adding items to a shopping cart and
-                                completing the entire checkout process. To
-                                enable these interactive capabilities, our
-                                RAG-based agent is equipped with a set of
-                                specific Python functions made available as
-                                tools via the LangGraph framework, allowing it
-                                to interact with and modify the state of the
-                                webshops.
-                            </p>
-
-                            <h3 class="title is-4">Retrieval Workflow</h3>
-                            <p>
-                                The agent follows an intelligent retrieval
-                                process:
-                            </p>
-                            <ol>
-                                <li>
-                                    Query complexity analysis
-                                    (simple/medium/complex)
-                                </li>
-                                <li>
-                                    Multi-strategy query generation based on
-                                    complexity
-                                </li>
-                                <li>Search execution</li>
-                                <li>Result analysis and relevance scoring</li>
-                                <li>
-                                    Iterative refinement based on
-                                    self-evaluation
-                                </li>
-                            </ol>
-                            <p>
-                                For detailed implementation, see the
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/src/rag"
-                                    >RAG source code</a
-                                >
-                                in our repository. The prompt used for the agent
-                                can be found
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/rag/benchmark_v2_improved_langgraph.py#L370"
-                                    target="_blank"
-                                >
-                                    here</a
-                                >.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+    <!-- Motivation Section -->
+    <section class="section" id="motivation">
+      <div class="container is-max-desktop">
+        <!-- Introduction -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Introduction</h2>
+            <div class="content has-text-justified">
+              <p>
+                LLM agents use different architectures and interfaces to interact with the World Wide Web. Some agents rely on traditional web
+                browsers to
+                <b>navigate HTML pages</b> originally designed for human users. Others do not directly access websites but instead retrieve web
+                content by <b>querying search engines</b> that have indexed the Web. A third architectural approach assumes that websites expose
+                <b>site-specific Web APIs</b>, which agents interact with via the Model Context Protocol (MCP). A fourth architecture, proposed by
+                Microsoft under the <b>NLWeb initiative</b>, defines a standardized interface through which agents query individual websites and
+                receive responses formatted as structured schema.org data.
+              </p>
+              <p>
+                This page presents the results of the first experimental comparison of these four architectures, using the
+                <b>same set of tasks</b> within an e-commerce scenario. The experiments were conducted across four simulated e-shops, each offering
+                products via different interfaces. Four corresponding LLM agents — the MCP agent, RAG agent, NLWeb agent, and HTML agent — are
+                evaluated performing the same set of 91 tasks, each using a different method for interacting with the shops.
+              </p>
+              <p>
+                We compare the <b>effectiveness</b> (success rate, F1) of the different agents in solving the tasks, which are grouped into categories
+                such as searching for specific products, searching for the cheapest product given concrete or vague requirements, adding products to
+                shopping carts, and finally checking out the products and paying for them by credit card. We also assess the <b>efficiency</b> of each
+                architecture by measuring task runtime and token usage. The analysis of input and output tokens provides a basis for estimating both
+                the operational cost of each agent as well as its energy consumption and environmental impact.
+              </p>
+              <p>
+                The experiments show that specialized agents can deliver equal and in certain cases superior performance compared to browser-based
+                agents, while incurring 5-10 times lower token costs. For basic tasks, the NLWeb agent achieves the highest completion rate (88% with
+                Claude Sonnet), while the RAG agent shows strong performance across both basic and advanced tasks. All alternative interfaces
+                demonstrate significantly lower token usage compared to browser-based agents, with the RAG agent being particularly efficient. These
+                findings demonstrate that purpose-built agent interfaces can significantly improve both effectiveness and efficiency in web-based
+                agent systems, suggesting that the future of web agents may lie in specialized APIs rather than traditional HTML browsing.
+              </p>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- MCP Section -->
-        <section class="section" id="mcp">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">
-                            Agent querying WebAPIs via MCP (MCP Agent)
-                        </h2>
-                        <div class="content">
-                            <p>
-                                The
-                                <a
-                                    href="https://modelcontextprotocol.io"
-                                    target="_blank"
-                                    >Model Context Protocol (MCP)</a
-                                >
-                                is an open protocol designed to standardize
-                                communication between LLM applications and
-                                external tools or data sources. Instead of
-                                parsing unstructured web content, an agent (the
-                                MCP <em>Host</em>) connects to a dedicated MCP
-                                <em>Server</em> that exposes a well-defined set
-                                of tools. This could allow the agent to interact
-                                with the webshops in a more seamless way.
-                            </p>
-                            <p>
-                                In our setup, we run four independent MCP
-                                servers, one for each WebMall shop. These
-                                servers expose a similar set of tools for
-                                actions like search, cart management, and
-                                checkout. However, to simulate a realistic,
-                                multi-provider environment, the data format
-                                returned by each server is intentionally
-                                heterogeneous. This forces the agent to adapt to
-                                different API responses from each shop, testing
-                                its ability to handle diverse, non-standardized
-                                data structures.
-                            </p>
+    <!-- Architecture Diagram -->
+    <section class="section" id="architecture">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3">Architectures and Interfaces</h2>
+        <div class="content">
+          <p>
+            The following section describes the four distinct agent architectures evaluated in our experimental study: browser-based agents that 
+            operate through direct HTML manipulation, search-based agents that leverage pre-indexed search engines, API-based agents that 
+            utilize structured web services, and natural language interface agents that process queries through semantic endpoints. These 
+            architectures vary significantly in their vendor implementation requirements, ranging from approaches requiring no modifications to 
+            those necessitating dedicated endpoints
+            . We present each architecture's technical implementation, vendor requirements, 
+            and operational workflow to establish a framework for understanding these design choices.
+          </p>
+        </div>
+      </div>
+    </section>
 
-                            <h3 class="title is-4">Agent Workflow</h3>
-                            <p>
-                                The agent's interaction is entirely tool-driven.
-                                The MCP server for each shop exposes its
-                                capabilities as tools, which the agent can
-                                discover and execute. The workflow is as
-                                follows:
-                            </p>
-                            <ol>
-                                <li>
-                                    <strong>Connection and Discovery:</strong>
-                                    The agent, acting as an MCP Host,
-                                    establishes a connection with the MCP Server
-                                    for a specific shop and discovers the
-                                    available tools through the protocol's
-                                    capability negotiation.
-                                </li>
-                                <li>
-                                    <strong>Tool Execution:</strong> The agent
-                                    invokes tools like
-                                    <code>search_products</code> or
-                                    <code>add_to_cart</code> by sending JSON-RPC
-                                    messages to the server. The server executes
-                                    the corresponding actions.
-                                </li>
-                                <li>
-                                    <strong>Response Handling:</strong> The
-                                    agent receives a structured but potentially
-                                    heterogeneous JSON response and must parse
-                                    it according to the specific format of that
-                                    shop's API.
-                                </li>
-                            </ol>
-                            <p>
-                                For complete implementation details, refer to
-                                the
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/src/api_mcp"
-                                    >MCP server code</a
-                                >
-                                in our repository.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+    <!-- Browser-based Section -->
+    <section class="section" id="browser-based">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h3 class="title is-4">Browser-based Agent (AX+MEM)</h3>
+            <div class="content">
+              <p>
+                The browser-based agent represents the most general approach to web automation, capable of interacting with any website through direct
+                browser manipulation. This method requires no special setup or cooperation from website vendors, making it universally applicable but
+                potentially less efficient than specialized interfaces.
+              </p>
+              <p>
+                Our browser-based implementation uses the
+                <a href="https://wbsg-uni-mannheim.github.io/WebMall/" target="_blank">WebMall benchmark</a>
+                baseline experiments, which employ web agents from the
+                <a href="https://github.com/ServiceNow/AgentLab" target="_blank">AgentLab</a>
+                library that accompanies
+                <a href="https://github.com/ServiceNow/BrowserGym" target="_blank">BrowserGym</a>.
+              </p>
+              <p>
+                The observation space can utilize the accessibility tree (AXTree) for structured page information, screenshots for visual context
+                where each visible element is annotated with numbers corresponding to AXTree IDs, or a combination of both. When short-term memory is
+                enabled, the agent can record relevant information at each step to maintain context across longer task sequences. We specifically use
+                their best performing configuration, which combines the accessibility tree (AXTree) with short-term memory capabilities, running on
+                both GPT-4.1 and Claude Sonnet 4 models.
+              </p>
+
+              <h4 class="title is-5">Browser Agent Workflow</h4>
+              <p>The browser-based agent follows a step-by-step interaction process:</p>
+              <ol>
+                <li>Navigate to target website using browser automation</li>
+                <li>Parse accessibility tree (AXTree) to understand page structure</li>
+                <li>Identify interactive elements and their relationships</li>
+                <li>Execute actions (click, type, scroll) based on task requirements</li>
+                <li>Store relevant information in short-term memory for context</li>
+                <li>Repeat interaction cycle until task completion</li>
+              </ol>
+
+              <p>
+                For detailed implementation and complete benchmark results, see the
+                <a href="https://wbsg-uni-mannheim.github.io/WebMall/" target="_blank">WebMall benchmark</a>.
+              </p>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- NLWeb + MCP Section -->
-        <section class="section" id="nlweb-mcp">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">
-                            Agent querying NLWeb Sites (NLWeb Agent)
-                        </h2>
-                        <div class="content">
-                            <p>
-                                The
-                                <a
-                                    href="https://github.com/nlweb-ai/NLWeb"
-                                    target="_blank"
-                                    >NLWeb</a
-                                >
-                                (Natural Language for Web) interface provides a
-                                standardized mechanism for interacting with web
-                                services through natural language. It operates
-                                by leveraging existing semi-structured data,
-                                particularly Schema.org markup, to create a
-                                semantic layer over a website's content. A key
-                                feature of NLWeb is its native support for the
-                                Model Context Protocol (MCP), which allows it to
-                                expose a single, consistent API endpoint. This
-                                endpoint can serve natural language queries from
-                                both human-facing applications (e.g., chat
-                                interfaces) and autonomous AI agents, ensuring
-                                uniform interaction capabilities.
-                            </p>
-                            <h3 class="title is-4">Agent Workflow</h3>
-                            <p>
-                                The agent's interaction with the NLWeb + MCP
-                                interface follows a structured, semantic
-                                search-oriented workflow:
-                            </p>
-                            <ol>
-                                <li>
-                                    <strong>Connection and Discovery:</strong>
-                                    The agent connects to the NLWeb-enabled MCP
-                                    server for a specific shop and discovers the
-                                    available tools.
-                                </li>
-                                <li>
-                                    <strong>Natural Language Query:</strong> The
-                                    agent sends a natural language query (e.g.,
-                                    "laptops under $1000 with 16GB RAM") to the
-                                    server by invoking the
-                                    <code>ask</code> tool.
-                                </li>
-                                <li>
-                                    <strong>Semantic Search Execution:</strong>
-                                    The server generates an embedding from the
-                                    query and performs a cosine similarity
-                                    search against the pre-computed vectors in
-                                    its dedicated Elasticsearch index.
-                                </li>
-                                <li>
-                                    <strong>Standardized Response:</strong> The
-                                    agent receives a list of products in the
-                                    standardized Schema.org JSON format.
-                                </li>
-                            </ol>
-                            <p>
-                                The complete implementation is available in the
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/src/nlweb_mcp"
-                                    >NLWeb + MCP directory</a
-                                >. The prompt used for the agent can be found
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/benchmark_nlweb_mcp.py#L282"
-                                    target="_blank"
-                                    >here</a
-                                >.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+    <!-- RAG Section -->
+    <section class="section" id="rag-alternative">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h3 class="title is-4">Agent querying a Search Engine (RAG Agent)</h3>
+            <div class="content">
+              <p>
+                This agent has access to a search engine, not unlike those that are currently used by humans to find information on the web. Rather
+                than relying on browser automation or structured APIs, this approach pre-indexes website content into a searchable knowledge base,
+                enabling efficient semantic search across multiple e-commerce platforms simultaneously. Therfore the vendor of the website does not
+                have to provide any additional functionality as search engine indexing is already a big part of the web today.
+              </p>
+              <p>
+                Our RAG implementation uses
+                <a href="https://www.elastic.co/elasticsearch/vector-database" target="_blank">Elasticsearch</a>
+                to create a unified search index containing scraped content from all four WebMall shops. These scraped websites are then cleaned using
+                the <a href="https://github.com/Unstructured-IO/unstructured" target="_blank">Unstructured library</a>. A resulting JSON file can be
+                found
+                <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/tree/main/website/examples/rag_elastic.json" target="_blank">here</a
+                >. The system generates composite embeddings that combine product titles and descriptions, enabling semantic similarity search. The
+                search engine is presented to the agent as a tool that can be called one or multiple times with differing queries to iteratively
+                refine the results.
+              </p>
+              <p>
+                The agent leverages the
+                <a href="https://www.langchain.com/langgraph" target="_blank">LangGraph</a>
+                framework to orchestrate retrieval workflows and incorporates specialized Python functions for e-commerce actions like adding items to
+                carts and completing checkouts.
+              </p>
+
+              <h4 class="title is-5">RAG Agent Workflow</h4>
+              <p>The RAG agent uses a LangGraph ReAct agent with the following available tools:</p>
+              <ol>
+                <li><strong>search_products</strong>: Execute semantic search queries against Elasticsearch (returns title + URL for efficiency)</li>
+                <li><strong>get_product_details</strong>: Fetch detailed product information for specific URLs</li>
+                <li><strong>add_to_cart_webmall_1-4</strong>: Add products to specific shop carts</li>
+                <li><strong>checkout_webmall_1-4</strong>: Complete purchases with customer details</li>
+              </ol>
+              <p>
+                The agent follows a two-step search approach: first using lightweight searches to identify promising products, then fetching detailed
+                information only for relevant items to minimize token usage.
+              </p>
+
+              <p>
+                For detailed implementation, see the
+                <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/src/rag">RAG source code</a>
+                in our repository. The prompt used for the agent can be found
+                <a
+                  href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/rag/benchmark_v2_improved_langgraph.py#L370"
+                  target="_blank"
+                >
+                  here</a
+                >.
+              </p>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Technical Details Section -->
-        <section class="section" id="technical">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">Technical Details</h2>
-                        <div class="content">
-                            <p>
-                                This section provides a high-level comparison of
-                                the technical aspects of each interface. All
-                                configurations and setup instructions are
-                                designed for reproducibility and are available
-                                in the project repository.
-                            </p>
-                        </div>
+    <!-- MCP Section -->
+    <section class="section" id="mcp">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h3 class="title is-4">Agent querying WebAPIs via MCP (MCP Agent)</h3>
+            <div class="content">
+              <p>
+                The MCP agent interacts with websites through structured APIs provided by website vendors. These APIs are exposed via they
+                <a href="https://modelcontextprotocol.io" target="_blank">Model Context Protocol (MCP)</a>, originally proposed by
+                <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank">Anthropic</a>, is an open protocol designed to
+                standardize communication between LLM applications and external tools or data sources. Instead of parsing unstructured web content, an
+                agent (the MCP <em>Host</em>) connects to a dedicated MCP <em>Server</em> that exposes a well-defined set of tools. These tools wrap
+                the WebAPI and can be implemented by the vendor of the website directly or by a third party.
+              </p>
+              <p>
+                In our setup, we run four independent MCP servers, one for each WebMall shop. These servers expose tools for actions like search, cart
+                management, and checkout. However, to simulate a realistic, multi-provider environment, the WebAPIs are heterogeneous - the data
+                format and tools returned by each server are intentionally different. This heterogeneity forces the agent to adapt to different API
+                responses from each shop, testing its ability to handle diverse, non-standardized data structures, which reflects the reality of
+                integrating with multiple independent web services.
+              </p>
+              <p>
+                The agent leverages the same <a href="https://www.langchain.com/langgraph" target="_blank">LangGraph</a> framework as the RAG agent.
+                It uses MCP tools exposed by each shop's server for product search, cart management, and checkout operations.
+              </p>
 
-                        <h3 class="title is-4">Comparative Architecture</h3>
-                        <div class="results-table">
-                            <table
-                                class="table is-striped is-hoverable is-fullwidth"
-                            >
-                                <thead>
-                                    <tr>
-                                        <th>Aspect</th>
-                                        <th>RAG</th>
-                                        <th>MCP</th>
-                                        <th>NLWeb</th>
-                                        <th>Browser</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <strong
-                                                >Website Infrastructure</strong
-                                            >
-                                        </td>
-                                        <td colspan="4"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Data Source</td>
-                                        <td>Web scraping (HTML)</td>
-                                        <td>API access</td>
-                                        <td>API access</td>
-                                        <td>
-                                            Real-time HTML + AXTree +
-                                            Screenshots
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Data Storage</td>
-                                        <td>Unified Elasticsearch Index</td>
-                                        <td>Per-Shop Elasticsearch Indices</td>
-                                        <td>Per-Shop Elasticsearch Indices</td>
-                                        <td>Browser state only</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Index Content</td>
-                                        <td>Unstructured Text</td>
-                                        <td>Structured Product Data</td>
-                                        <td>Structured Product Data</td>
-                                        <td>N/A</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Preprocessing</td>
-                                        <td>HTML cleaning</td>
-                                        <td>None required</td>
-                                        <td>Schema.org translation</td>
-                                        <td>AXTree generation</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Response Format</td>
-                                        <td>
-                                            Document fields (title, content,
-                                            url)
-                                        </td>
-                                        <td>Heterogeneous per-shop JSON</td>
-                                        <td>Standardized Schema.org</td>
-                                        <td>
-                                            Multi-modal observations
-                                            (HTML/AXTree/Visual)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Agent Architecture</strong>
-                                        </td>
-                                        <td colspan="4"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Search Type</td>
-                                        <td>Semantic (KNN on embeddings)</td>
-                                        <td>Semantic (KNN on embeddings)</td>
-                                        <td>Semantic (KNN on embeddings)</td>
-                                        <td>
-                                            DOM/AXTree traversal + visual
-                                            navigation
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Communication Protocol</td>
-                                        <td>Direct Python Functions</td>
-                                        <td>JSON-RPC via MCP</td>
-                                        <td>JSON-RPC via MCP</td>
-                                        <td>
-                                            Playwright + Chrome DevTools
-                                            Protocol
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Query Strategy</td>
-                                        <td>Multi-query generation</td>
-                                        <td>Multi-query possible per shop</td>
-                                        <td>Multi-query possible per shop</td>
-                                        <td>Multi-action sequences per step</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shop Selection</td>
-                                        <td>Searches all shops at once</td>
-                                        <td>Agent selects shops</td>
-                                        <td>Agent selects shops</td>
-                                        <td>Sequential shop visits</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Processing Details</strong>
-                                        </td>
-                                        <td colspan="4"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Embedding Fields</td>
-                                        <td>Title, Content, Composite</td>
-                                        <td>Title, Content, Composite</td>
-                                        <td>Title, Content, Composite</td>
-                                        <td>N/A</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Embedding Model</td>
-                                        <td>OpenAI text-embedding-3-small</td>
-                                        <td>OpenAI text-embedding-3-small</td>
-                                        <td>OpenAI text-embedding-3-small</td>
-                                        <td>N/A</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Result Ranking</td>
-                                        <td>Cosine similarity score</td>
-                                        <td>Cosine similarity score</td>
-                                        <td>Cosine similarity score</td>
-                                        <td>Page order/relevance</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Agent Capabilities</strong>
-                                        </td>
-                                        <td colspan="4"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Search Refinement</td>
-                                        <td>Self-evaluation & iteration</td>
-                                        <td>Self-evaluation & iteration</td>
-                                        <td>Self-evaluation & iteration</td>
-                                        <td>Interactive page exploration</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cross-shop Comparison</td>
-                                        <td>Native (unified index)</td>
-                                        <td>Sequential MCP calls</td>
-                                        <td>Sequential MCP calls</td>
-                                        <td>Sequential browsing</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cart Management</td>
-                                        <td>Python tool functions</td>
-                                        <td>MCP tool invocation</td>
-                                        <td>MCP tool invocation</td>
-                                        <td>Browser interactions</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Checkout Process</td>
-                                        <td>Direct function calls</td>
-                                        <td>MCP tool invocation</td>
-                                        <td>MCP tool invocation</td>
-                                        <td>Form filling & submission</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+              <h4 class="title is-5">MCP Agent Workflow</h4>
+              <p>
+                The MCP server for each shop exposes its capabilities as tools, which the agent can discover and execute. The workflow is as follows:
+              </p>
+              <ol>
+                <li>
+                  <strong>Connection and Discovery:</strong>
+                  The agent, acting as an MCP Host, establishes a connection with the MCP Server for a specific shop and discovers the available tools
+                  through the protocol's capability negotiation.
+                </li>
+                <li>
+                  <strong>Tool Execution:</strong> The agent invokes tools like <code>search_products</code> or <code>add_to_cart</code> by sending
+                  JSON-RPC messages to the server. The server executes the corresponding actions.
+                </li>
+                <li><strong>Response Handling:</strong> The agent receives a structured but potentially heterogeneous JSON response.</li>
+              </ol>
+              <p>
+                The heterogeneity of WebAPIs is evident in how different shops implement the same functionality. For example, checkout operations have
+                completely different signatures and parameter names:
+              </p>
+              <div class="code-block">
+                <pre>
+// E-Store Athletes (Shop 1) checkout signature
+async def checkout(
+    ctx: Context,
+    first_name: str,
+    last_name: str,
+    email: str,
+    phone: str,
+    address_1: str,
+    city: str,
+    state: str,
+    postcode: str,
+    country: str,
+    credit_card_number: str,
+    credit_card_expiry: str,
+    credit_card_cvc: str
+) -> str
 
-                        <h3 class="title is-4">Setup Instructions</h3>
-                        <p>
-                            Detailed setup instructions for each interface are
-                            available in our repository:
-                        </p>
-                        <ul>
-                            <li>
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/rag/README.md"
-                                    >RAG Setup Guide</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/api_mcp/README.md"
-                                    >MCP Server Configuration</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/nlweb_mcp/README.md"
-                                    >NLWeb + MCP Installation</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+// TechTalk (Shop 2) checkout signature  
+async def checkout_cart_techtalk(
+    ctx: Context,
+    customer_first_name: str,
+    customer_last_name: str,
+    customer_email: str,
+    customer_phone: str,
+    shipping_street: str,
+    shipping_city: str,
+    shipping_state: str,
+    shipping_zip: str,
+    shipping_country_code: str,
+    payment_card_number: str,
+    card_expiration_date: str,
+    card_security_code: str
+) -> str</pre
+                >
+              </div>
+              <p>
+                The heterogeneity extends beyond function signatures to the actual data structures returned by search endpoints. The same product
+                information is represented using completely different field names and hierarchies:
+              </p>
+              <div class="code-block">
+                <pre>
+// E-Store Athletes product representation
+{
+  "ID": "product123",
+  "label": "Gaming Laptop",
+  "priceInfo": {
+    "current": "1299.99",
+    "usual": "1499.99",
+    "dealPrice": "1299.99",
+    "isOnDeal": true
+  },
+  "desc": {
+    "longVersion": "High-performance gaming laptop..."
+  },
+  "stock": {
+    "itemCode": "product123",
+    "status": "In stock",
+    "leftOverCount": 5
+  },
+  "addresses": {
+    "selfLink": "/product/gaming-laptop",
+    "shareLink": "/product/gaming-laptop"
+  }
+}
+
+// TechTalk product representation
+{
+  "catalog_entry_id": "product123",
+  "merchandise_title": "Gaming Laptop",
+  "financial_details": {
+    "cost_amount": "1299.99",
+    "standard_rate": "1499.99",
+    "discount_rate": "1299.99",
+    "bargain_active": true
+  },
+  "content_sections": {
+    "detailed_info": "High-performance gaming laptop..."
+  },
+  "inventory_tracking": {
+    "product_identifier": "product123",
+    "availability_state": "On the shelf",
+    "units_remaining": 5
+  },
+  "direct_link": "/product/gaming-laptop"
+}</pre
+                >
+              </div>
+              <p>
+                For complete implementation details, refer to the
+                <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/src/api_mcp">MCP server code</a>
+                in our repository.
+              </p>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Use Case: E-Commerce Section -->
-        <section class="section" id="use-case">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">Use Case: E-Commerce</h2>
-                        <div class="content">
-                            <p>
-                                To evaluate the effectiveness of different agent
-                                interfaces, we use the
-                                <a
-                                    href="https://wbsg-uni-mannheim.github.io/WebMall/"
-                                    target="_blank"
-                                    >WebMall benchmark</a
-                                >, a comprehensive e-commerce evaluation
-                                framework. WebMall simulates a realistic online
-                                shopping environment with four distinct
-                                webshops, each offering different product
-                                catalogs and interfaces. This benchmark allows
-                                us to test how well agents can perform common
-                                e-commerce tasks across heterogeneous web
-                                environments.
-                            </p>
-
-                            <h3 class="title is-4">Task Categories</h3>
-                            <p>
-                                The WebMall benchmark includes a diverse set of
-                                e-commerce tasks that test different agent
-                                capabilities. These tasks are organized into two
-                                main categories based on their complexity:
-                            </p>
-
-                            <h4 class="title is-5">Basic Tasks</h4>
-                            <ul>
-                                <li>
-                                    <strong
-                                        >Find Specific Product (12
-                                        tasks)</strong
-                                    >: Locate a particular product by name or
-                                    model number
-                                </li>
-                                <li>
-                                    <strong
-                                        >Find Cheapest Offer (10 tasks)</strong
-                                    >: Identify the lowest-priced option for a
-                                    specific product across shops
-                                </li>
-                                <li>
-                                    <strong
-                                        >Products Fulfilling Specific
-                                        Requirements (11 tasks)</strong
-                                    >: Find products matching precise technical
-                                    specifications
-                                </li>
-                                <li>
-                                    <strong>Add to Cart (7 tasks)</strong>: Add
-                                    selected products to the shopping cart
-                                </li>
-                                <li>
-                                    <strong>Checkout (8 tasks)</strong>:
-                                    Complete the purchase process with payment
-                                    and shipping information
-                                </li>
-                            </ul>
-
-                            <h4 class="title is-5">Advanced Tasks</h4>
-                            <ul>
-                                <li>
-                                    <strong
-                                        >Cheapest Offer with Specific
-                                        Requirements (10 tasks)</strong
-                                    >: Find the most affordable product meeting
-                                    detailed criteria
-                                </li>
-                                <li>
-                                    <strong
-                                        >Products Satisfying Vague Requirements
-                                        (8 tasks)</strong
-                                    >: Interpret and fulfill imprecise or
-                                    subjective requirements
-                                </li>
-                                <li>
-                                    <strong
-                                        >Cheapest Offer with Vague Requirements
-                                        (6 tasks)</strong
-                                    >: Combine price optimization with fuzzy
-                                    requirement matching
-                                </li>
-                                <li>
-                                    <strong>Find Substitutes (6 tasks)</strong>:
-                                    Identify alternative products when the
-                                    requested item is unavailable
-                                </li>
-                                <li>
-                                    <strong
-                                        >Find Compatible Products (5
-                                        tasks)</strong
-                                    >: Locate accessories or components
-                                    compatible with a given product
-                                </li>
-                                <li>
-                                    <strong>End To End (8 tasks)</strong>:
-                                    Complete full shopping workflows from search
-                                    to checkout
-                                </li>
-                            </ul>
-
-                            <p>
-                                Each task is designed to test specific agent
-                                capabilities, from basic information retrieval
-                                to complex multi-step reasoning and
-                                decision-making. The complete task set with
-                                detailed descriptions can be found in the
-                                <a
-                                    href="https://github.com/wbsg-uni-mannheim/BrowserGym/blob/main/browsergym/webmall/src/browsergym/webmall/task_sets.json"
-                                    target="_blank"
-                                    >WebMall repository</a
-                                >.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+    <!-- NLWeb + MCP Section -->
+    <section class="section" id="nlweb-mcp">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h3 class="title is-4">Agent querying NLWeb Sites (NLWeb Agent)</h3>
+            <div class="content">
+              <p>
+                The NLWeb agent interacts with websites through a standardized natural language interface provided by website vendors. The vendor must
+                implement and host an "ask" endpoint that accepts natural language queries and returns structured responses according to the
+                Schema.org format.
+                <a href="https://github.com/nlweb-ai/NLWeb" target="_blank">NLWeb</a>
+                (Natural Language for Web), proposed and supported by
+                <a href="https://www.microsoft.com/en-us/research/blog/nlweb-a-blueprint-for-web-agent-interfaces/" target="_blank">Microsoft</a>,
+                provides a standardized mechanism for this interaction. It operates by leveraging existing semi-structured data, particularly
+                Schema.org markup, to create a semantic layer over a website's content.
+              </p>
+              <p>
+                In our implementation, we create one dedicated Elasticsearch index per webshop that enables semantic search of that website's content.
+                Each NLWeb server processes natural language queries by generating embeddings and performing cosine similarity search against its
+                shop-specific index. Additionally, we create an MCP server per shop to enable other functionality like cart management and checkout
+                operations, complementing the <code>ask</code> tool for product search.
+              </p>
+              <p>
+                The agent leverages the same <a href="https://www.langchain.com/langgraph" target="_blank">LangGraph</a> framework as the other
+                agents. An example for a <code>ask</code> tool call and response can be found
+                <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/blob/main/website/examples/nlweb_query.json" target="_blank">here</a
+                >.
+              </p>
+              <h4 class="title is-5">NLWeb Agent Workflow</h4>
+              <p>The agent's interaction with the NLWeb + MCP interface the following workflow:</p>
+              <ol>
+                <li>
+                  <strong>Connection and Discovery:</strong>
+                  The agent connects to the NLWeb-enabled MCP server for a specific shop and discovers the available tools.
+                </li>
+                <li>
+                  <strong>Natural Language Query:</strong> The agent sends a natural language query (e.g., "laptops under $1000 with 16GB RAM") to the
+                  server by invoking the <code>ask</code> tool.
+                </li>
+                <li>
+                  <strong>Semantic Search Execution:</strong>
+                  The server generates an embedding from the query and performs a cosine similarity search against the pre-computed vectors in its
+                  dedicated Elasticsearch index.
+                </li>
+                <li><strong>Standardized Response:</strong> The agent receives a list of products in the standardized Schema.org JSON format.</li>
+              </ol>
+              <p>
+                The complete implementation is available in the
+                <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/src/nlweb_mcp">NLWeb + MCP directory</a>. The
+                prompt used for the agent can be found
+                <a
+                  href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/benchmark_nlweb_mcp.py#L282"
+                  target="_blank"
+                  >here</a
+                >.
+              </p>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Results Section -->
-        <section class="section" id="results">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">Experimental Results</h2>
-                        <div class="content">
-                            <p>
-                                We evaluated each agent interface on the
-                                complete WebMall benchmark task set. The
-                                evaluation compares the performance of different
-                                agent architectures: RAG Agent, MCP Agent, and
-                                NLWeb Agent. For comparison, we also include
-                                results from the strongest-performing
-                                browser-based agent on the WebMall benchmark,
-                                AX+MEM, subsequently referred to as Browser
-                                Agent.
-                            </p>
-                            <p>
-                                Every agent interface is evaluated with both
-                                GPT-4.1 and Claude 4 Sonnet to assess
-                                model-dependent performance variations.
-                            </p>
-
-                            <h3 class="title is-4">Evaluation Metrics</h3>
-                            <p>
-                                We assess performance using four metrics derived
-                                from comparing the agent's response against the
-                                ground truth solutions:
-                            </p>
-                            <ul>
-                                <li>
-                                    <strong>Task Completion Rate</strong>:
-                                    Binary metric (0 or 1) measuring exact task
-                                    completion. An agent achieves 1.0 only if no
-                                    elements are missing and no additional
-                                    elements are returned.
-                                </li>
-                                <li>
-                                    <strong>Precision</strong>: Fraction of
-                                    agent-returned URLs that are correct
-                                    (intersection ÷ total URLs returned). Higher
-                                    precision means fewer incorrect products.
-                                </li>
-                                <li>
-                                    <strong>Recall</strong>: Fraction of correct
-                                    URLs that the agent found (intersection ÷
-                                    total correct URLs). Higher recall means
-                                    fewer missing products.
-                                </li>
-                                <li>
-                                    <strong>F1 Score</strong>: Harmonic mean of
-                                    precision and recall.
-                                </li>
-                            </ul>
-
-                            <h3 class="title is-4">Performance by Task Type</h3>
-                            <p>
-                                The results are shown in the following tables,
-                                sorted by completion rate and categorized by
-                                task type. Best results per metric are
-                                highlighted in bold.
-                            </p>
-                            <div id="results-by-type" class="results-table">
-                                <!-- Results table will be inserted here -->
-                            </div>
-
-                            <h3 class="title is-4">Performance by Category</h3>
-                            <div id="results-by-category" class="results-table">
-                                <!-- Results table will be inserted here -->
-                            </div>
-
-                            <h3 class="title is-4">
-                                Cost & Performance Analysis
-                            </h3>
-                            <p>
-                                Cost and execution time analysis based on model
-                                pricing and actual performance from our
-                                experiments. Prices are per million tokens
-                                (MTok) as of 2025. Execution times are averages
-                                per task.
-                            </p>
-                            <div id="cost-analysis">
-                                <!-- Cost tables will be inserted here -->
-                            </div>
-
-                            <h3 class="title is-4">Key Findings (TODO)</h3>
-                            <ul>
-                                <li>
-                                    <strong>Task Completion</strong>: RAG Agents
-                                    demonstrate strong performance on complex,
-                                    goal-oriented tasks.
-                                </li>
-                            </ul>
-
-                            <h3 class="title is-4">
-                                Browser-based Comparison (AX+MEM)
-                            </h3>
-                            <p>
-                                For reference, we include results from
-                                browser-based agents (AX+MEM) that interact
-                                directly with web interfaces, demonstrating the
-                                efficiency gains from structured interfaces.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+    <!-- Technical Details Section -->
+    <section class="section" id="technical">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Interface Comparison</h2>
+            <div class="results-table">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Aspect</th>
+                    <th>RAG</th>
+                    <th>MCP</th>
+                    <th>NLWeb</th>
+                    <th>Browser</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>Website Infrastructure</strong>
+                    </td>
+                    <td colspan="4"></td>
+                  </tr>
+                  <tr>
+                    <td>Data Source</td>
+                    <td>Web scraping (HTML)</td>
+                    <td>API access</td>
+                    <td>API access</td>
+                    <td>Real-time HTML + AXTree + Screenshots</td>
+                  </tr>
+                  <tr>
+                    <td>Data Storage</td>
+                    <td>Unified Elasticsearch Index</td>
+                    <td>Per-Shop Elasticsearch Indices</td>
+                    <td>Per-Shop Elasticsearch Indices</td>
+                    <td>Browser state only</td>
+                  </tr>
+                  <tr>
+                    <td>Index Content</td>
+                    <td>Unstructured Text</td>
+                    <td>Structured Product Data</td>
+                    <td>Structured Product Data</td>
+                    <td>N/A</td>
+                  </tr>
+                  <tr>
+                    <td>Preprocessing</td>
+                    <td>HTML cleaning</td>
+                    <td>None required</td>
+                    <td>Schema.org translation</td>
+                    <td>AXTree generation</td>
+                  </tr>
+                  <tr>
+                    <td>Response Format</td>
+                    <td>Document fields (title, content, url)</td>
+                    <td>Heterogeneous per-shop JSON</td>
+                    <td>Standardized Schema.org</td>
+                    <td>Multi-modal observations (HTML/AXTree/Visual)</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Agent Architecture</strong>
+                    </td>
+                    <td colspan="4"></td>
+                  </tr>
+                  <tr>
+                    <td>Search Type</td>
+                    <td>Semantic (KNN on embeddings)</td>
+                    <td>Semantic (KNN on embeddings)</td>
+                    <td>Semantic (KNN on embeddings)</td>
+                    <td>DOM/AXTree traversal + visual navigation</td>
+                  </tr>
+                  <tr>
+                    <td>Communication Protocol</td>
+                    <td>Direct Python Functions</td>
+                    <td>JSON-RPC via MCP</td>
+                    <td>JSON-RPC via MCP</td>
+                    <td>Playwright + Chrome DevTools Protocol</td>
+                  </tr>
+                  <tr>
+                    <td>Query Strategy</td>
+                    <td>Multi-query generation</td>
+                    <td>Multi-query possible per shop</td>
+                    <td>Multi-query possible per shop</td>
+                    <td>Multi-action sequences per step</td>
+                  </tr>
+                  <tr>
+                    <td>Shop Selection</td>
+                    <td>Searches all shops at once</td>
+                    <td>Agent selects shops</td>
+                    <td>Agent selects shops</td>
+                    <td>Sequential shop visits</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Processing Details</strong>
+                    </td>
+                    <td colspan="4"></td>
+                  </tr>
+                  <tr>
+                    <td>Embedding Fields</td>
+                    <td>Title, Content, Composite</td>
+                    <td>Title, Content, Composite</td>
+                    <td>Title, Content, Composite</td>
+                    <td>N/A</td>
+                  </tr>
+                  <tr>
+                    <td>Embedding Model</td>
+                    <td>OpenAI text-embedding-3-small</td>
+                    <td>OpenAI text-embedding-3-small</td>
+                    <td>OpenAI text-embedding-3-small</td>
+                    <td>N/A</td>
+                  </tr>
+                  <tr>
+                    <td>Result Ranking</td>
+                    <td>Cosine similarity score</td>
+                    <td>Cosine similarity score</td>
+                    <td>Cosine similarity score</td>
+                    <td>Page order/relevance</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Agent Capabilities</strong>
+                    </td>
+                    <td colspan="4"></td>
+                  </tr>
+                  <tr>
+                    <td>Search Refinement</td>
+                    <td>Self-evaluation & iteration</td>
+                    <td>Self-evaluation & iteration</td>
+                    <td>Self-evaluation & iteration</td>
+                    <td>Interactive page exploration</td>
+                  </tr>
+                  <tr>
+                    <td>Cross-shop Comparison</td>
+                    <td>Native (unified index)</td>
+                    <td>Sequential MCP calls</td>
+                    <td>Sequential MCP calls</td>
+                    <td>Sequential browsing</td>
+                  </tr>
+                  <tr>
+                    <td>Cart Management</td>
+                    <td>Python tool functions</td>
+                    <td>MCP tool invocation</td>
+                    <td>MCP tool invocation</td>
+                    <td>Browser interactions</td>
+                  </tr>
+                  <tr>
+                    <td>Checkout Process</td>
+                    <td>Direct function calls</td>
+                    <td>MCP tool invocation</td>
+                    <td>MCP tool invocation</td>
+                    <td>Form filling & submission</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Related Work Section -->
-        <section class="section" id="related-work">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">Related Work</h2>
-                        <div class="content has-text-justified">
-                            <p>
-                                The closest related work to our experiments is
-                                [<a href="#Song2025">Song (2025)</a>], which
-                                uses tasks from the WebArena benchmark to
-                                compare LLM agents that access websites via APIs
-                                with agents that browse HTML interfaces. The
-                                study concludes that API-based agents are more
-                                effective than HTML agents, with hybrid agents
-                                achieving the best overall performance. A second
-                                relevant study is [<a href="#Zhang2025"
-                                    >Zhang (2025)</a
-                                >], which compares API agents to GUI agents.
-                                This paper introduces a set of dimensions for
-                                comparing API and GUI agents and reports the
-                                results of an experimental evaluation using 27
-                                office-related tasks, involving Word, Excel, and
-                                PPT.
-                            </p>
-                            <p>
-                                A survey of agents for computer use, including
-                                Web agents, is presented by [<a
-                                    href="#Sager2025"
-                                    >Sager (2025)</a
-                                >]. [<a href="#Yehudai2025">Yehudai (2025)</a>]
-                                surveys benchmarks used for evaluating LLM
-                                agents, while [<a href="#Petrova2025"
-                                    >Petrova (2025)</a
-                                >] discusses LLM-based agents in the context of
-                                the historical development of the Semantic Web
-                                and FIPA-based multi-agent systems.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Use Case: E-Commerce Section -->
+    <section class="section" id="use-case">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Use Case: E-Commerce</h2>
+            <div class="content">
+              <p>
+                To evaluate the effectiveness of different agent interfaces, we use the
+                <a href="https://wbsg-uni-mannheim.github.io/WebMall/" target="_blank">WebMall benchmark</a>, a comprehensive e-commerce evaluation
+                framework. WebMall simulates a realistic online shopping environment with four distinct webshops, each offering different product
+                catalogs and interfaces. This benchmark allows us to test how well agents can perform common e-commerce tasks across heterogeneous web
+                environments.
+              </p>
 
-        <!-- References Section -->
-        <section class="section" id="references">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">References</h2>
-                        <div class="content has-text-justified">
-                            <p id="Song2025">
-                                [Song2025] Song, Yueqi, et al.:
-                                <a
-                                    href="https://arxiv.org/abs/2410.16464"
-                                    target="_blank"
-                                >
-                                    Beyond Browsing: API-Based Web Agents</a
-                                >. arXiv:2410.16464, 2025.
-                            </p>
-                            <p id="Zhang2025">
-                                [Zhang2025] Zhang, Chaoyun, et al.:
-                                <a
-                                    href="https://arxiv.org/pdf/2503.11069"
-                                    target="_blank"
-                                >
-                                    Api agents vs. gui agents: Divergence and
-                                    convergence</a
-                                >. arXiv:22503.11069, 2025.
-                            </p>
-                            <p id="Yehudai2025">
-                                [Yehudai2025] Yehudai, Asaf , et al.:
-                                <a
-                                    href="https://arxiv.org/pdf/2503.16416"
-                                    target="_blank"
-                                >
-                                    Survey on Evaluation of LLM-based Agents</a
-                                >, arXiv:2503.16416, 2025.
-                            </p>
-                            <p id="Zhou2023">
-                                [Zhou2023] Zhou, Shuyan, et al.:
-                                <a
-                                    href="https://arxiv.org/abs/2307.13854"
-                                    target="_blank"
-                                >
-                                    Webarena: A realistic web environment for
-                                    building autonomous agents</a
-                                >. arXiv:2307.13854, 2023.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+              <h3 class="title is-4">Task Categories</h3>
+              <p>
+                The WebMall benchmark includes a diverse set of e-commerce tasks that test different agent capabilities. These tasks are organized
+                into two main categories based on their complexity:
+              </p>
 
-        <footer class="footer">
-            <div class="container">
-                <div class="content has-text-centered">
-                    <p>
-                        This website is licensed under a
-                        <a
-                            rel="license"
-                            href="http://creativecommons.org/licenses/by-sa/4.0/"
-                            >Creative Commons Attribution-ShareAlike 4.0
-                            International License</a
-                        >.
-                    </p>
-                </div>
+              <h4 class="title is-5">Basic Tasks</h4>
+              <ul>
+                <li><strong>Find Specific Product (12 tasks)</strong>: Locate a particular product by name or model number</li>
+                <li><strong>Find Cheapest Offer (10 tasks)</strong>: Identify the lowest-priced option for a specific product across shops</li>
+                <li>
+                  <strong>Products Fulfilling Specific Requirements (11 tasks)</strong>: Find products matching precise technical specifications
+                </li>
+                <li><strong>Add to Cart (7 tasks)</strong>: Add selected products to the shopping cart</li>
+                <li><strong>Checkout (8 tasks)</strong>: Complete the purchase process with payment and shipping information</li>
+              </ul>
+
+              <h4 class="title is-5">Advanced Tasks</h4>
+              <ul>
+                <li>
+                  <strong>Cheapest Offer with Specific Requirements (10 tasks)</strong>: Find the most affordable product meeting detailed criteria
+                </li>
+                <li><strong>Products Satisfying Vague Requirements (8 tasks)</strong>: Interpret and fulfill imprecise or subjective requirements</li>
+                <li><strong>Cheapest Offer with Vague Requirements (6 tasks)</strong>: Combine price optimization with fuzzy requirement matching</li>
+                <li><strong>Find Substitutes (6 tasks)</strong>: Identify alternative products when the requested item is unavailable</li>
+                <li><strong>Find Compatible Products (5 tasks)</strong>: Locate accessories or components compatible with a given product</li>
+                <li><strong>End To End (8 tasks)</strong>: Complete full shopping workflows from search to checkout</li>
+              </ul>
+
+              <p>
+                Each task is designed to test specific agent capabilities, from basic information retrieval to complex multi-step reasoning and
+                decision-making. You can explore
+                <a href="https://wbsg-uni-mannheim.github.io/WebMall/#example-tasks" target="_blank">concrete examples of each task type</a>
+                on the WebMall benchmark page. The complete task set with detailed descriptions can be found in the
+                <a
+                  href="https://github.com/wbsg-uni-mannheim/BrowserGym/blob/main/browsergym/webmall/src/browsergym/webmall/task_sets.json"
+                  target="_blank"
+                  >WebMall repository</a
+                >.
+              </p>
             </div>
-        </footer>
-        <script src="./static/js/bulma-carousel.min.js"></script>
-        <script src="./static/js/bulma-slider.min.js"></script>
-        <script src="./static/js/interfaces.js"></script>
-        <script src="./static/js/results-loader.js"></script>
-    </body>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="section" id="results">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Experimental Results</h2>
+            <div class="content">
+              <p>
+                We evaluated each agent interface on the complete WebMall benchmark task set. The evaluation compares the performance of different
+                agent architectures: RAG Agent, MCP Agent, and NLWeb Agent. For comparison, we also include results from the strongest-performing
+                browser-based agent on the WebMall benchmark, AX+MEM, subsequently referred to as Browser Agent.
+              </p>
+              <p>
+                Every agent interface is evaluated with both GPT-4.1 (gpt-4.1-2025-04-14) and Claude 4 Sonnet (claude-sonnet-4-20250514) to assess
+                model-dependent performance variations. Note that our experiments do not utilize prompt caching. Detailed execution logs for all runs
+                are available in our
+                <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/tree/main/results/v1" target="_blank">GitHub repository</a>,
+                organized by interface type and model. For quick understanding of agent behavior,
+                <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/tree/main/results/v1/shortened_logs" target="_blank"
+                  >shortened execution logs</a
+                >
+                containing one successful task execution per agent interface and model are also available.
+              </p>
+
+              <h3 class="title is-4">Evaluation Metrics</h3>
+              <p>We assess performance using four metrics derived from comparing the agent's response against the ground truth solutions:</p>
+              <ul>
+                <li>
+                  <strong>Task Completion Rate</strong>: Binary metric (0 or 1) measuring exact task completion. An agent achieves 1.0 only if no
+                  elements are missing and no additional elements are returned.
+                </li>
+                <li>
+                  <strong>Precision</strong>: Fraction of agent-returned URLs that are correct (intersection ÷ total URLs returned). Higher precision
+                  means fewer incorrect products.
+                </li>
+                <li>
+                  <strong>Recall</strong>: Fraction of correct URLs that the agent found (intersection ÷ total correct URLs). Higher recall means
+                  fewer missing products.
+                </li>
+                <li><strong>F1 Score</strong>: Harmonic mean of precision and recall.</li>
+              </ul>
+
+              <h3 class="title is-4">Performance by Task Type</h3>
+              <p>
+                The results are shown in the following tables, sorted by completion rate and categorized by task type. Best results per metric are
+                highlighted in bold.
+              </p>
+              <div id="results-by-type" class="results-table">
+                <!-- Results table will be inserted here -->
+              </div>
+
+              <h3 class="title is-4">Performance by Category</h3>
+              <p>
+                Results grouped by task complexity:
+                <strong>Basic</strong> tasks include straightforward operations like finding specific products and simple checkout processes, while
+                <strong>Advanced</strong> tasks require complex reasoning such as interpreting vague requirements, finding substitutes, and multi-step
+                workflows.
+              </p>
+              <div id="results-by-category" class="results-table">
+                <!-- Results table will be inserted here -->
+              </div>
+
+              <h3 class="title is-4">Cost & Runtime Analysis</h3>
+              <p>
+                Cost and execution time analysis based on model pricing and actual performance from our experiments. Token prices as of July 2025:
+              </p>
+              <ul>
+                <li>
+                  <strong>GPT-4.1</strong>: $2.00/MTok input, $8.00/MTok output (<a
+                    href="https://platform.openai.com/docs/models/gpt-4.1"
+                    target="_blank"
+                    >OpenAI pricing</a
+                  >)
+                </li>
+                <li>
+                  <strong>Claude 4 Sonnet</strong>: $3.00/MTok input, $15.00/MTok output (<a
+                    href="https://docs.anthropic.com/en/docs/about-claude/models/overview#model-comparison-table"
+                    target="_blank"
+                    >Anthropic pricing</a
+                  >)
+                </li>
+              </ul>
+              <p>
+                The total cost of running all experiments across all interfaces and models was approximately
+                <strong>$250</strong>. This cost excludes embedding generation (which is negligible at $0.02/MTok) and infrastructure costs. Execution
+                times shown are averages per task.
+              </p>
+
+              <div id="cost-analysis">
+                <!-- Cost tables will be inserted here -->
+              </div>
+
+              <h3 class="title is-4">Key Findings</h3>
+              <ul>
+                <li>
+                  <strong>Performance</strong>: Specialized interfaces match or exceed browser-based performance, with NLWeb achieving 88% completion
+                  rate on basic tasks.
+                </li>
+                <li>
+                  <strong>Efficiency</strong>: Alternative interfaces use 5-10x fewer tokens than browser-based agents, translating to significant
+                  cost savings.
+                </li>
+                <li>
+                  <strong>Speed</strong>: RAG and API-based agents complete tasks faster due to direct data access without page navigation overhead.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Discussion Section 
+    <section class="section" id="discussion">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Discussion</h2>
+            <div class="content has-text-justified">
+              <p>
+                Our experimental results reveal several important insights about the trade-offs between different agent interfaces for web-based
+                tasks. The most striking finding is that specialized interfaces can match or exceed the performance of browser-based agents while
+                using significantly fewer computational resources.
+              </p>
+
+              <h3 class="title is-4">Performance vs. Generality</h3>
+              <p>
+                While browser-based agents offer the advantage of working with any website without modification, our results show that this generality
+                comes at a significant cost. The specialized interfaces we tested demonstrate that when websites provide structured access to their
+                data, agents can operate much more efficiently. The NLWeb interface, in particular, shows the potential of standardized semantic
+                interfaces, achieving the highest success rates on basic tasks while using minimal tokens.
+              </p>
+
+              <h3 class="title is-4">Economic and Environmental Implications</h3>
+              <p>
+                The 5-10x reduction in token usage we observed with specialized interfaces has profound implications. Not only does this translate to
+                direct cost savings for operators, but it also significantly reduces the environmental footprint of AI agents. As web agents become
+                more prevalent, the cumulative effect of these efficiency gains could be substantial. Our experiments alone consumed approximately
+                $1,500 in API costs - scaling this to millions of agents performing daily tasks highlights the importance of efficient interfaces.
+              </p>
+
+              <h3 class="title is-4">Towards a Hybrid Future</h3>
+              <p>
+                Our findings suggest that the future of web agents likely involves a hybrid approach. While specialized interfaces offer superior
+                efficiency for supported websites, browser-based agents will remain necessary for the long tail of websites that don't provide APIs.
+                The ideal agent architecture might dynamically choose between interfaces based on availability, using specialized APIs when possible
+                and falling back to browser automation when necessary.
+              </p>
+
+              <h3 class="title is-4">Implications for Web Development</h3>
+              <p>
+                These results should encourage web developers to consider providing structured interfaces for AI agents. The NLWeb approach, which
+                leverages existing Schema.org markup, offers a particularly attractive path forward as it requires minimal additional effort while
+                providing significant benefits to both agents and website operators through reduced server load.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    -->
+
+    <!-- Related Work Section -->
+    <section class="section" id="related-work">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Related Work</h2>
+            <div class="content has-text-justified">
+              <p>
+                The closest related work to our experiments is [<a href="#Song2025">Song (2025)</a>], which uses tasks from the WebArena benchmark to
+                compare LLM agents that access websites via APIs with agents that browse HTML interfaces. The study concludes that API-based agents
+                are more effective than HTML agents, with hybrid agents achieving the best overall performance. A second relevant study is [<a
+                  href="#Zhang2025"
+                  >Zhang (2025)</a
+                >], which compares API agents to GUI agents. This paper introduces a set of dimensions for comparing API and GUI agents and reports
+                the results of an experimental evaluation using 27 office-related tasks, involving Word, Excel, and PPT.
+              </p>
+              <p>
+                A survey of agents for computer use, including Web agents, is presented by [<a href="#Sager2025">Sager (2025)</a>]. [<a
+                  href="#Yehudai2025"
+                  >Yehudai (2025)</a
+                >] surveys benchmarks used for evaluating LLM agents, while [<a href="#Petrova2025">Petrova (2025)</a>] discusses LLM-based agents in
+                the context of the historical development of the Semantic Web and FIPA-based multi-agent systems.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Setup Instructions Section -->
+    <section class="section" id="setup">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Setup Instructions</h2>
+            <div class="content">
+              <p>Detailed setup instructions for each interface are available in our repository:</p>
+              <ul>
+                <li>
+                  <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/rag/README.md">RAG Setup Guide</a>
+                </li>
+                <li>
+                  <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/api_mcp/README.md"
+                    >MCP Server Configuration</a
+                  >
+                </li>
+                <li>
+                  <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/nlweb_mcp/README.md"
+                    >NLWeb + MCP Installation</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- References Section -->
+    <section class="section" id="references">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">References</h2>
+            <div class="content has-text-justified">
+              <p id="Song2025">
+                [Song2025] Song, Yueqi, et al.:
+                <a href="https://arxiv.org/abs/2410.16464" target="_blank"> Beyond Browsing: API-Based Web Agents</a>. arXiv:2410.16464, 2025.
+              </p>
+              <p id="Zhang2025">
+                [Zhang2025] Zhang, Chaoyun, et al.:
+                <a href="https://arxiv.org/pdf/2503.11069" target="_blank"> Api agents vs. gui agents: Divergence and convergence</a>.
+                arXiv:22503.11069, 2025.
+              </p>
+              <p id="Yehudai2025">
+                [Yehudai2025] Yehudai, Asaf , et al.:
+                <a href="https://arxiv.org/pdf/2503.16416" target="_blank"> Survey on Evaluation of LLM-based Agents</a>, arXiv:2503.16416, 2025.
+              </p>
+              <p id="Zhou2023">
+                [Zhou2023] Zhou, Shuyan, et al.:
+                <a href="https://arxiv.org/abs/2307.13854" target="_blank"> Webarena: A realistic web environment for building autonomous agents</a>.
+                arXiv:2307.13854, 2023.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section class="section" id="feedback">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Feedback</h2>
+            <div class="content">
+              <p>We welcome feedback to improve this research. If you have suggestions, questions, or would like to report issues:</p>
+              <ul>
+                <li>
+                  <strong>GitHub Issues</strong>: Report bugs or suggest improvements at our
+                  <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/issues" target="_blank">GitHub repository</a>
+                </li>
+                <li>Alternatively, you can also contact the authors directly via email.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <p>
+            This website is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"
+              >Creative Commons Attribution-ShareAlike 4.0 International License</a
+            >.
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/interfaces.js"></script>
+    <script src="./static/js/results-loader.js"></script>
+  </body>
 </html>

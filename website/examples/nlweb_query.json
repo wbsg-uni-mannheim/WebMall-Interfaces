@@ -1,0 +1,43 @@
+{
+    "query": "AMD Ryzen 9 5900X",
+    "tool_response": {
+      "asking_sites": {
+        "message": "Asking WebMall-1"
+      },
+      "tool_selection": {
+        "selected_tool": "semantic_search",
+        "parameters": {
+          "search_query": "AMD Ryzen 9 5900X",
+          "top_k": 10
+        },
+        "query": "AMD Ryzen 9 5900X",
+        "time_elapsed": "N/A"
+      },
+      "offers": [
+        {
+          "url": "https://webmall-1.informatik.uni-mannheim.de/product/amd-ryzen-9-5900x-3-7-ghz-12-cores-24-threads/",
+          "name": "AMD Ryzen 9 5900X - 3.7 GHz - 12 Cores - 24 Threads",
+          "site": "WebMall-1",
+          "siteUrl": "WebMall-1",
+          "score": 91,
+          "schema_object": {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "AMD Ryzen 9 5900X - 3.7 GHz - 12 Cores - 24 Threads",
+            "category": "AMD",
+            "url": "https://webmall-1.informatik.uni-mannheim.de/product/amd-ryzen-9-5900x-3-7-ghz-12-cores-24-threads/",
+            "description": "<p>Higher speeds. More storage. Greater bandwidth. You have to pull out all the stops, squeeze out the last ounce of performance, and take it all. The AMD Ryzen 9 processor is designed to exceed expectations and set new standards for high-performance processors.</p>\\n",
+            "offers": {
+              "@type": "Offer",
+              "price": "251.26",
+              "priceCurrency": "EUR",
+              "availability": "https://schema.org/InStock"
+            },
+            "sku": "1954",
+            "@id": "1954"
+          },
+          "ranking_type": "SEMANTIC_SEARCH"
+        }
+      ]
+    }
+  }

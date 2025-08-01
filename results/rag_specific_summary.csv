@@ -1,0 +1,5 @@
+Interface,Model,Task_type,Runtime_seconds
+RAG_Agent,GPT-4.1,Basic,6.9
+RAG_Agent,GPT-4.1,Advanced,9.9
+RAG_Agent,Claude Sonnet 4,Basic,23.7
+RAG_Agent,Claude Sonnet 4,Advanced,40.9

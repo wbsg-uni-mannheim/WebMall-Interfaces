@@ -479,10 +479,16 @@ async function loadResults() {
         taskTypes.forEach((taskType) => {
             const container = document.getElementById("results-by-type");
 
-            // Add task type header
+            // Define task counts
+            const taskCounts = {
+                Basic: 48,
+                Advanced: 43,
+            };
+
+            // Add task type header with count
             const header = document.createElement("h4");
             header.className = "title is-5";
-            header.textContent = `${taskType} Tasks`;
+            header.textContent = `${taskType} Tasks (${taskCounts[taskType]} tasks)`;
             container.appendChild(header);
 
             // Create and append table
@@ -515,10 +521,16 @@ async function loadResults() {
         const categoryTaskTypes = ["Basic", "Advanced"];
 
         categoryTaskTypes.forEach((taskType) => {
-            // Add task type header
+            // Define task counts
+            const taskCounts = {
+                Basic: 48,
+                Advanced: 43,
+            };
+
+            // Add task type header with count
             const header = document.createElement("h4");
             header.className = "title is-5";
-            header.textContent = `${taskType} Task Categories`;
+            header.textContent = `${taskType} Task Categories (${taskCounts[taskType]} tasks)`;
             categoryContainer.appendChild(header);
 
             // Create and append table
@@ -536,10 +548,16 @@ async function loadResults() {
         const costTaskTypes = ["Basic", "Advanced"];
 
         costTaskTypes.forEach((taskType) => {
-            // Add task type header
+            // Define task counts
+            const taskCounts = {
+                Basic: 48,
+                Advanced: 43,
+            };
+
+            // Add task type header with count
             const header = document.createElement("h4");
             header.className = "title is-5";
-            header.textContent = `${taskType} Tasks - Cost & Performance`;
+            header.textContent = `${taskType} Tasks - Cost & Performance (${taskCounts[taskType]} tasks)`;
             costContainer.appendChild(header);
 
             // Create and append table
@@ -674,12 +692,38 @@ function createCategoryResultsTable(data, InterfaceNames, filterTaskType) {
     const tbody = document.createElement("tbody");
 
     let lastCategory = null;
+    
+    // Helper function to get task count for a category based on task type
+    const getCategoryTaskCount = (originalCategoryName, taskType) => {
+        // Count tasks per category from WebMall task definitions
+        // Map using actual CSV category names
+        const categoryTaskCounts = {
+            Basic: {
+                "Find Specific Product": 12,
+                "Find Cheapest Offer": 10, 
+                "Best Fit Specific": 11,
+                "Add to Cart": 7,
+                "Checkout": 8
+            },
+            Advanced: {
+                "Cheapest Best Fit Specific": 10,
+                "Best Fit Vague": 8,
+                "Cheapest Best Fit Vague": 6,
+                "Substitutes": 6,
+                "Find Compatible Products": 5,
+                "End To End": 8
+            }
+        };
+        
+        const counts = categoryTaskCounts[taskType] || {};
+        return counts[originalCategoryName] || 0;
+    };
 
-    filteredByType.forEach((row, index) => {
+    filteredByType.forEach((row) => {
         const currentCategory = row[categoryField];
 
-        // Add category separator row if category changed
-        if (currentCategory !== lastCategory && lastCategory !== null) {
+        // Add category separator row if category changed (including for first category)
+        if (currentCategory !== lastCategory) {
             const separatorRow = document.createElement("tr");
             separatorRow.style.height = "30px";
             separatorRow.style.backgroundColor = "#f0f0f0";
@@ -716,6 +760,12 @@ function createCategoryResultsTable(data, InterfaceNames, filterTaskType) {
                 categoryDisplayName =
                     categoryRenameMap[categoryDisplayName] ||
                     categoryDisplayName;
+            }
+
+            // Add task count to category display name
+            const taskCount = getCategoryTaskCount(currentCategory, filterTaskType);
+            if (taskCount > 0) {
+                categoryDisplayName += ` (${taskCount} tasks)`;
             }
 
             separatorCell.textContent = categoryDisplayName;
@@ -824,8 +874,6 @@ function createCategoryResultsTable(data, InterfaceNames, filterTaskType) {
 }
 
 function createCategorySummaryTable(data, InterfaceNames) {
-    const container = document.createElement("div");
-
     // Get unique categories - handle both 'Category' and 'category' field names
     const categoryField =
         data.headers.find((h) => h.toLowerCase() === "category") || "category";

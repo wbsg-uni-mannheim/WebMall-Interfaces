@@ -1,0 +1,17 @@
+Interface,Model,Task_type,Runtime_seconds
+AX+Mem,GPT-4.1,Basic,142.4
+AX+Mem,GPT-4.1,Advanced,177.0
+AX+Mem,Claude Sonnet 4,Basic,334.6
+AX+Mem,Claude Sonnet 4,Advanced,420.9
+RAG_Agent,GPT-4.1,Basic,22.2
+RAG_Agent,GPT-4.1,Advanced,23.3
+RAG_Agent,Claude Sonnet 4,Basic,26.8
+RAG_Agent,Claude Sonnet 4,Advanced,35.4
+API_MCP,GPT-4.1,Basic,10.5
+API_MCP,GPT-4.1,Advanced,11.7
+API_MCP,Claude Sonnet 4,Basic,40.0
+API_MCP,Claude Sonnet 4,Advanced,50.1
+NlWeb_elastic,GPT-4.1,Basic,13.8
+NlWeb_elastic,GPT-4.1,Advanced,13.2
+NlWeb_elastic,Claude Sonnet 4,Basic,17.7
+NlWeb_elastic,Claude Sonnet 4,Advanced,22.1

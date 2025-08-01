@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+        container_name: elasticsearch-webmall-interfaces
+        environment:
+            - discovery.type=single-node
+            - ES_JAVA_OPTS=-Xms1g -Xmx1g
+            - xpack.security.enabled=false
+            - xpack.security.enrollment.enabled=false
+            - cluster.routing.allocation.disk.threshold_enabled=false
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        volumes:
+            - elasticsearch_data:/usr/share/elasticsearch/data
+        networks:
+            - elastic-network
+        healthcheck:
+            test:
+                [
+                    "CMD-SHELL",
+                    "curl -f http://localhost:9200/_cluster/health || exit 1",
+                ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:8.11.0
+        container_name: kibana-webmall-interfaces
+        environment:
+            - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+            - xpack.security.enabled=false
+        ports:
+            - "5601:5601"
+        depends_on:
+            elasticsearch:
+                condition: service_healthy
+        networks:
+            - elastic-network
+
+volumes:
+    elasticsearch_data:
+        driver: local
+
+networks:
+    elastic-network:
+        driver: bridge
