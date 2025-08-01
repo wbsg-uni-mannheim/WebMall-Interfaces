@@ -49,7 +49,6 @@ pip install -r requirements.txt
 
 WebMall-Interfaces expects a `.env` file in the root directory containing API keys and configuration. Make a copy of `.env.example` and rename it to `.env`, then configure the following variables:
 
-
 ## Running the WebMall-Interfaces Benchmark
 
 ### NLWeb MCP Interface
@@ -116,7 +115,7 @@ For more details, see the [WebMall benchmark website](https://wbsg-uni-mannheim.
 -   **Task Completion Rate**: Percentage of tasks completed successfully
 -   **Precision/Recall/F1-Score**: URL retrieval accuracy for product search tasks
 -   **Response Time**: Query execution latency
--   **Token Efficiency**: LLM API usage 
+-   **Token Efficiency**: LLM API usage
 -   **Tool Usage Statistics**: Detailed analysis of agent tool calling patterns
 
 ## Repository Structure
@@ -137,32 +136,6 @@ WebMall-Interfaces/
 ├── results/                   # Benchmark results (generated)
 └── website/                   # Results visualization and analysis
 ```
-
-## Technical Architecture
-
-### Data Pipeline
-
-The benchmark implements different data acquisition and processing strategies:
-
--   **NLWeb MCP**: Direct WooCommerce API integration with real-time product data extraction
--   **RAG**: Web crawling pipeline using RSS feeds and sitemaps for comprehensive content indexing
--   **API MCP**: Hybrid approach combining API data with semantic search capabilities
-
-### Search Implementation
-
-All interfaces utilize Elasticsearch for product indexing with OpenAI text-embedding-3-small embeddings (1536 dimensions). Search strategy:
-
--   **Semantic Search**: Pure embedding-based cosine similarity matching
-
-
-### Agent Framework
-
-LangGraph provides the agent execution framework, enabling:
-
--   Tool-based interaction patterns
--   Multi-step reasoning workflows
--   Cart state management across sessions
--   Error handling and recovery mechanisms
 
 ## Results Analysis
 
