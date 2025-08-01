@@ -203,10 +203,7 @@
               <div class="column has-text-centered">
                 <div class="publication-links">
                   <span class="link-block">
-                    <a
-                      href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
+                    <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces" class="external-link button is-normal is-rounded is-dark">
                       <span class="icon">
                         <i class="fab fa-github"></i>
                       </span>
@@ -279,13 +276,12 @@
         <h2 class="title is-3">Architectures and Interfaces</h2>
         <div class="content">
           <p>
-            The following section describes the four distinct agent architectures evaluated in our experimental study: browser-based agents that 
-            operate through direct HTML manipulation, search-based agents that leverage pre-indexed search engines, API-based agents that 
-            utilize structured web services, and natural language interface agents that process queries through semantic endpoints. These 
-            architectures vary significantly in their vendor implementation requirements, ranging from approaches requiring no modifications to 
-            those necessitating dedicated endpoints
-            . We present each architecture's technical implementation, vendor requirements, 
-            and operational workflow to establish a framework for understanding these design choices.
+            The following section describes the four distinct agent architectures evaluated in our experimental study: browser-based agents that
+            operate through direct HTML manipulation, search-based agents that leverage pre-indexed search engines, API-based agents that utilize
+            structured web services, and natural language interface agents that process queries through semantic endpoints. These architectures vary
+            significantly in their vendor implementation requirements, ranging from approaches requiring no modifications to those necessitating
+            dedicated endpoints . We present each architecture's technical implementation, vendor requirements, and operational workflow to establish
+            a framework for understanding these design choices.
           </p>
         </div>
       </div>
@@ -386,10 +382,10 @@
 
               <p>
                 For detailed implementation, see the
-                <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/src/rag">RAG source code</a>
+                <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/tree/main/src/rag">RAG source code</a>
                 in our repository. The prompt used for the agent can be found
                 <a
-                  href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/rag/benchmark_v2_improved_langgraph.py#L370"
+                  href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/blob/main/src/rag/benchmark_v2_improved_langgraph.py#L370"
                   target="_blank"
                 >
                   here</a
@@ -539,7 +535,7 @@ async def checkout_cart_techtalk(
               </div>
               <p>
                 For complete implementation details, refer to the
-                <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/src/api_mcp">MCP server code</a>
+                <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/tree/main/src/api_mcp">MCP server code</a>
                 in our repository.
               </p>
             </div>
@@ -597,13 +593,9 @@ async def checkout_cart_techtalk(
               </ol>
               <p>
                 The complete implementation is available in the
-                <a href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/tree/main/src/nlweb_mcp">NLWeb + MCP directory</a>. The
-                prompt used for the agent can be found
-                <a
-                  href="https://github.com/wbsg-uni-mannheim/webmall-alternative-interfaces/blob/main/src/benchmark_nlweb_mcp.py#L282"
-                  target="_blank"
-                  >here</a
-                >.
+                <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/tree/main/src/nlweb_mcp">NLWeb + MCP directory</a>. The prompt used
+                for the agent can be found
+                <a href="https://github.com/wbsg-uni-mannheim/WebMall-Interfaces/blob/main/src/benchmark_nlweb_mcp.py#L282" target="_blank">here</a>.
               </p>
             </div>
           </div>
@@ -946,48 +938,30 @@ async def checkout_cart_techtalk(
       </div>
     </section>
 
-    <!-- Discussion Section 
-    <section class="section" id="discussion">
+    -->
+
+    <!-- Related Work Section -->
+    <section class="section" id="related-work">
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column is-full-width">
-            <h2 class="title is-3">Discussion</h2>
+            <h2 class="title is-3">Related Work</h2>
             <div class="content has-text-justified">
               <p>
-                Our experimental results reveal several important insights about the trade-offs between different agent interfaces for web-based
-                tasks. The most striking finding is that specialized interfaces can match or exceed the performance of browser-based agents while
-                using significantly fewer computational resources.
+                The closest related work to our experiments is [<a href="#Song2025">Song 2025</a>], which uses tasks from the WebArena benchmark to
+                compare LLM agents that access websites via APIs with agents that browse HTML interfaces. The study concludes that API-based agents
+                are more effective than HTML agents, with hybrid agents achieving the best overall performance. A second relevant study is [<a
+                  href="#Zhang2025"
+                  >Zhang 2025</a
+                >], which compares API agents to GUI agents. This paper introduces a set of dimensions for comparing API and GUI agents and reports
+                the results of an experimental evaluation using 27 office-related tasks, involving Word, Excel, and PPT.
               </p>
-
-              <h3 class="title is-4">Performance vs. Generality</h3>
               <p>
-                While browser-based agents offer the advantage of working with any website without modification, our results show that this generality
-                comes at a significant cost. The specialized interfaces we tested demonstrate that when websites provide structured access to their
-                data, agents can operate much more efficiently. The NLWeb interface, in particular, shows the potential of standardized semantic
-                interfaces, achieving the highest success rates on basic tasks while using minimal tokens.
-              </p>
-
-              <h3 class="title is-4">Economic and Environmental Implications</h3>
-              <p>
-                The 5-10x reduction in token usage we observed with specialized interfaces has profound implications. Not only does this translate to
-                direct cost savings for operators, but it also significantly reduces the environmental footprint of AI agents. As web agents become
-                more prevalent, the cumulative effect of these efficiency gains could be substantial. Our experiments alone consumed approximately
-                $1,500 in API costs - scaling this to millions of agents performing daily tasks highlights the importance of efficient interfaces.
-              </p>
-
-              <h3 class="title is-4">Towards a Hybrid Future</h3>
-              <p>
-                Our findings suggest that the future of web agents likely involves a hybrid approach. While specialized interfaces offer superior
-                efficiency for supported websites, browser-based agents will remain necessary for the long tail of websites that don't provide APIs.
-                The ideal agent architecture might dynamically choose between interfaces based on availability, using specialized APIs when possible
-                and falling back to browser automation when necessary.
-              </p>
-
-              <h3 class="title is-4">Implications for Web Development</h3>
-              <p>
-                These results should encourage web developers to consider providing structured interfaces for AI agents. The NLWeb approach, which
-                leverages existing Schema.org markup, offers a particularly attractive path forward as it requires minimal additional effort while
-                providing significant benefits to both agents and website operators through reduced server load.
+                A survey of agents for computer use, including Web agents, is presented by [<a href="#Sager2025">Sager 2025</a>]. [<a
+                  href="#Yehudai2025"
+                  >Yehudai 2025</a
+                >] surveys benchmarks used for evaluating LLM agents, while [<a href="#Petrova2025">Petrova 2025</a>] discusses LLM-based agents in
+                the context of the historical development of the Semantic Web and FIPA-based multi-agent systems.
               </p>
             </div>
           </div>
@@ -995,109 +969,42 @@ async def checkout_cart_techtalk(
       </div>
     </section>
 
-    -->
-
-        <!-- Related Work Section -->
-        <section class="section" id="related-work">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">Related Work</h2>
-                        <div class="content has-text-justified">
-                            <p>
-                                The closest related work to our experiments is
-                                [<a href="#Song2025">Song 2025</a>], which
-                                uses tasks from the WebArena benchmark to
-                                compare LLM agents that access websites via APIs
-                                with agents that browse HTML interfaces. The
-                                study concludes that API-based agents are more
-                                effective than HTML agents, with hybrid agents
-                                achieving the best overall performance. A second
-                                relevant study is [<a href="#Zhang2025"
-                                    >Zhang 2025</a>], which compares API agents to GUI agents.
-                                This paper introduces a set of dimensions for
-                                comparing API and GUI agents and reports the
-                                results of an experimental evaluation using 27
-                                office-related tasks, involving Word, Excel, and
-                                PPT.
-                            </p>
-                            <p>
-                                A survey of agents for computer use, including
-                                Web agents, is presented by [<a
-                                    href="#Sager2025"
-                                    >Sager 2025</a
-                                >]. [<a href="#Yehudai2025">Yehudai 2025</a>]
-                                surveys benchmarks used for evaluating LLM
-                                agents, while [<a href="#Petrova2025"
-                                    >Petrova 2025</a
-                                >] discusses LLM-based agents in the context of
-                                the historical development of the Semantic Web
-                                and FIPA-based multi-agent systems.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+    <!-- References Section -->
+    <section class="section" id="references">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">References</h2>
+            <div class="content has-text-justified">
+              <p id="Song2025">
+                [Song 2025] Song, Yueqi, et al.:
+                <a href="https://arxiv.org/abs/2410.16464" target="_blank"> Beyond Browsing: API-Based Web Agents</a>. arXiv:2410.16464, 2025.
+              </p>
+              <p id="Zhang2025">
+                [Zhang 2025] Zhang, Chaoyun, et al.:
+                <a href="https://arxiv.org/abs/2503.11069" target="_blank"> API Agents vs. GUI Agents: Divergence and Convergence</a>.
+                arXiv:22503.11069, 2025.
+              </p>
+              <p id="Sager2025">
+                [Sager 2025] Sager, Pascal, et al.:
+                <a href="https://arxiv.org/abs/2501.16150" target="_blank"> A Comprehensive Survey of Agents for Computer Use</a>. arXiv:2501.16150,
+                2025.
+              </p>
+              <p id="Yehudai2025">
+                [Yehudai 2025] Yehudai, Asaf , et al.:
+                <a href="https://arxiv.org/abs/2503.16416" target="_blank"> Survey on Evaluation of LLM-based Agents</a>, arXiv:2503.16416, 2025.
+              </p>
+              <p id="Petrova2025">
+                [Petrova 2025] Petrova, Tatiana, et al.:
+                <a href="https://arxiv.org/abs/2507.10644" target="_blank">
+                  From Semantic Web and MAS to Agentic AI: A Unified Narrative of the Web of Agents</a
+                >. arXiv:2507.10644, 2025.
+              </p>
             </div>
-        </section>
-
-        <!-- References Section -->
-        <section class="section" id="references">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width">
-                        <h2 class="title is-3">References</h2>
-                        <div class="content has-text-justified">
-                            <p id="Song2025">
-                                [Song 2025] Song, Yueqi, et al.:
-                                <a
-                                    href="https://arxiv.org/abs/2410.16464"
-                                    target="_blank"
-                                >
-                                    Beyond Browsing: API-Based Web Agents</a
-                                >. arXiv:2410.16464, 2025.
-                            </p>
-                            <p id="Zhang2025">
-                                [Zhang 2025] Zhang, Chaoyun, et al.:
-                                <a
-                                    href="https://arxiv.org/abs/2503.11069"
-                                    target="_blank"
-                                >
-                                    API Agents vs. GUI Agents: Divergence and
-                                    Convergence</a
-                                >. arXiv:22503.11069, 2025.
-                            </p>
-							<p id="Sager2025">
-                                [Sager 2025] Sager, Pascal, et al.:
-                                <a
-                                    href="https://arxiv.org/abs/2501.16150"
-                                    target="_blank"
-                                >
-                                    A Comprehensive Survey of Agents for Computer Use</a
-                                >. arXiv:2501.16150, 2025.
-                            </p>
-                            <p id="Yehudai2025">
-                                [Yehudai 2025] Yehudai, Asaf , et al.:
-                                <a
-                                    href="https://arxiv.org/abs/2503.16416"
-                                    target="_blank"
-                                >
-                                    Survey on Evaluation of LLM-based Agents</a
-                                >, arXiv:2503.16416, 2025.
-                            </p>
-                            <p id="Petrova2025">
-                                [Petrova 2025] Petrova, Tatiana, et al.:
-                                <a
-                                    href="https://arxiv.org/abs/2507.10644"
-                                    target="_blank"
-                                >
-                                    From Semantic Web and MAS to Agentic AI: A Unified Narrative of the Web of Agents</a
-                                >. arXiv:2507.10644, 2025.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <footer class="footer">
       <div class="container">
